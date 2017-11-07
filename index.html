@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>欢迎来到 Pyro实例与教程 的文档! &mdash; Pyro实例与教程 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Pyro实例与教程 0.1.0 documentation" href="#"/>
+        <link rel="next" title="Pyro里的模型：从原分布到随机函数" href="intro_part_i.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> Pyro实例与教程
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro_part_i.html">Pyro里的模型：从原分布到随机函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro_part_ii.html">Inference in Pyro: From Stochastic Functions to Marginal Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svi_part_i.html">SVI Part I: An Introduction to Stochastic Variational Inference in Pyro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svi_part_ii.html">SVI Part II: Conditional Independence, Subsampling, and Amortization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svi_part_iii.html">SVI Part III: ELBO Gradient Estimators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vae.html">Variational Autoencoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bayesian_regression.html">Bayesian Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dmm.html">Deep Markov Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="air.html">Attend Infer Repeat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ss-vae.html">The Semi-Supervised VAE</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Pyro实例与教程</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>欢迎来到 Pyro实例与教程 的文档!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="欢迎来到-Pyro实例与教程-的文档!">
+<h1>欢迎来到 Pyro实例与教程 的文档!<a class="headerlink" href="#欢迎来到-Pyro实例与教程-的文档!" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro_part_i.html">Pyro里的模型：从原分布到随机函数</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro_part_i.html#随机原函数">随机原函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_part_i.html#原函数-pyro.sample">原函数 <code class="docutils literal"><span class="pre">pyro.sample</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_part_i.html#一个简单的模型">一个简单的模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_part_i.html#Universality:-Stochastic-Recursion,-Higher-order-Stochastic-Functions,-and-Random-Control-Flow">Universality: Stochastic Recursion, Higher-order Stochastic Functions, and Random Control Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_part_i.html#Next-Steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="intro_part_ii.html">Inference in Pyro: From Stochastic Functions to Marginal Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro_part_ii.html#A-Simple-Example">A Simple Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_part_ii.html#Representing-Marginal-Distributions">Representing Marginal Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_part_ii.html#Conditioning-Models-on-Data">Conditioning Models on Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_part_ii.html#Flexible-Approximate-Inference-With-Guide-Functions">Flexible Approximate Inference With Guide Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_part_ii.html#Parametrized-Stochastic-Functions-and-Variational-Inference">Parametrized Stochastic Functions and Variational Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro_part_ii.html#Next-Steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="svi_part_i.html">SVI Part I: An Introduction to Stochastic Variational Inference in Pyro</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_i.html#Setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_i.html#Model-Learning">Model Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_i.html#Guide">Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_i.html#ELBO">ELBO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_i.html#SVI-Class"><code class="docutils literal"><span class="pre">SVI</span></code> Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_i.html#Optimizers">Optimizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_i.html#A-simple-example">A simple example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_i.html#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="svi_part_ii.html">SVI Part II: Conditional Independence, Subsampling, and Amortization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_ii.html#The-Goal:-Scaling-SVI-to-Large-Datasets">The Goal: Scaling SVI to Large Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_ii.html#Marking-Conditional-Independence-in-Pyro">Marking Conditional Independence in Pyro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_ii.html#iarange"><code class="docutils literal"><span class="pre">iarange</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_ii.html#Subsampling">Subsampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_ii.html#Amortization">Amortization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_ii.html#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="svi_part_iii.html">SVI Part III: ELBO Gradient Estimators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_iii.html#Setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_iii.html#Easy-Case:-Reparameterizable-Random-Variables">Easy Case: Reparameterizable Random Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_iii.html#Tricky-Case:-Non-reparameterizable-Random-Variables">Tricky Case: Non-reparameterizable Random Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_iii.html#Variance-or-Why-I-Wish-I-Was-Doing-MLE-Deep-Learning">Variance or Why I Wish I Was Doing MLE Deep Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="svi_part_iii.html#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vae.html">Variational Autoencoders</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vae.html#Introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vae.html#VAE-in-Pyro">VAE in Pyro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vae.html#Inference">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vae.html#Sample-results">Sample results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vae.html#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bayesian_regression.html">Bayesian Regression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bayesian_regression.html#Setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayesian_regression.html#Data">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayesian_regression.html#Regression">Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayesian_regression.html#Training">Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayesian_regression.html#Bayesian-Regression">Bayesian Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayesian_regression.html#Inference">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bayesian_regression.html#Validating-Results">Validating Results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dmm.html">Deep Markov Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dmm.html#Introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmm.html#The-Model">The Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmm.html#Inference">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmm.html#Packaging-the-Model-and-Guide-as-a-Pytorch-Module">Packaging the Model and Guide as a Pytorch Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmm.html#Stochastic-Variational-Inference">Stochastic Variational Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmm.html#The-Black-Magic-of-Optimization">The Black Magic of Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmm.html#Data-Loading,-Training,-and-Evaluation">Data Loading, Training, and Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmm.html#Evaluation">Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmm.html#Results">Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmm.html#Bells,-whistles,-and-other-improvements">Bells, whistles, and other improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmm.html#Some-final-comments">Some final comments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dmm.html#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="air.html">Attend Infer Repeat</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="air.html#Introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="air.html#Model">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="air.html#Guide">Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="air.html#Inference">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="air.html#Improvements">Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="air.html#Results">Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="air.html#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ss-vae.html">The Semi-Supervised VAE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ss-vae.html#Introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ss-vae.html#The-Challenges-of-Inference">The Challenges of Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ss-vae.html#First-Variant:-Standard-objective-function,-naive-estimator">First Variant: Standard objective function, naive estimator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ss-vae.html#Interlude:-Summing-Out-Discrete-Latents">Interlude: Summing Out Discrete Latents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ss-vae.html#Second-Variant:-Standard-Objective-Function,-Better-Estimator">Second Variant: Standard Objective Function, Better Estimator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ss-vae.html#Third-Variant:-Adding-a-Term-to-the-Objective">Third Variant: Adding a Term to the Objective</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ss-vae.html#Results">Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ss-vae.html#Final-thoughts">Final thoughts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ss-vae.html#References">References</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="Indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#Indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="intro_part_i.html" class="btn btn-neutral float-right" title="Pyro里的模型：从原分布到随机函数" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Xiongyp.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

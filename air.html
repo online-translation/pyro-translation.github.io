@@ -1,0 +1,1311 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Attend Infer Repeat &mdash; Pyro实例与教程 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Pyro实例与教程 0.1.0 documentation" href="index.html"/>
+        <link rel="next" title="The Semi-Supervised VAE" href="ss-vae.html"/>
+        <link rel="prev" title="Deep Markov Model" href="dmm.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Pyro实例与教程
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro_part_i.html">Pyro里的模型：从原分布到随机函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro_part_ii.html">Inference in Pyro: From Stochastic Functions to Marginal Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svi_part_i.html">SVI Part I: An Introduction to Stochastic Variational Inference in Pyro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svi_part_ii.html">SVI Part II: Conditional Independence, Subsampling, and Amortization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="svi_part_iii.html">SVI Part III: ELBO Gradient Estimators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vae.html">Variational Autoencoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bayesian_regression.html">Bayesian Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dmm.html">Deep Markov Model</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Attend Infer Repeat</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Model">Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Generating-a-single-object">Generating a single object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Generating-an-entire-image">Generating an entire image</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Aside:-Vectorized-mini-batches">Aside: Vectorized mini-batches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Specifying-the-likelihood">Specifying the likelihood</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Guide">Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Another-perspective">Another perspective</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Inference">Inference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Data-dependent-baselines">Data dependent baselines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Putting-it-all-together">Putting it all together</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Improvements">Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Results">Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ss-vae.html">The Semi-Supervised VAE</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Pyro实例与教程</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Attend Infer Repeat</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/air.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Attend-Infer-Repeat">
+<h1>Attend Infer Repeat<a class="headerlink" href="#Attend-Infer-Repeat" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial we will implement the model and inference strategy
+described in “Attend, Infer, Repeat: Fast Scene Understanding with
+Generative Models” (AIR) [1] and apply it to the multi-mnist dataset.</p>
+<p>A <a class="reference external" href="https://github.com/uber/pyro/tree/dev/examples/air">standalone
+implementation</a>
+is also available.</p>
+<div class="admonition note">
+Current status: We can describe this model and inference strategy in
+Pyro, but we have yet to finalize our experimental results.</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>%pylab inline
+from collections import namedtuple
+import pyro
+import pyro.optim as optim
+from pyro.infer import SVI
+import pyro.distributions as dist
+from pyro.util import ng_zeros, ng_ones
+import torch
+from torch.autograd import Variable
+import torch.nn as nn
+from torch.nn.functional import relu, sigmoid, softplus, grid_sample, affine_grid
+import numpy as np
+</pre></div>
+</div>
+</div>
+<div class="section" id="Introduction">
+<h2>Introduction<a class="headerlink" href="#Introduction" title="Permalink to this headline">¶</a></h2>
+<p>The model described in [1] is a generative model of scenes. In this
+tutorial we will use it to model images from a dataset that is similar
+to the multi-mnist dataset in [1]. Here are some data points from this
+data set:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>fn = &#39;../../examples/air/data/multi_mnist_train_uint8.npz&#39;
+mnist = Variable(torch.from_numpy(np.load(fn)[&#39;x&#39;].astype(np.float32) / 255.))
+def show_images(imgs):
+    figure(figsize=(12,4))
+    for i, img in enumerate(imgs):
+        subplot(1, len(imgs), i + 1)
+        imshow(img.data.numpy(), cmap=&#39;binary&#39;)
+show_images(mnist[9:14])
+</pre></div>
+</div>
+</div>
+<p>To get an idea where we’re heading, we first give a brief overview of
+the model and the approach we’ll take to inference. We’ll follow the
+naming conventions used in [1] as closely as possible.</p>
+<p>AIR decomposes the process of generating an image into discrete steps,
+each of which generates only part of the image. More specifically, at
+each step the model will generate a small image (<code class="docutils literal"><span class="pre">y_att</span></code>) by passing a
+latent “code” variable (<code class="docutils literal"><span class="pre">z_what</span></code>) through a neural network. We’ll
+refer to these small images as “objects”. In the case of AIR applied to
+the multi-mnist dataset we expect each of these objects to represent a
+single digit. The model also includes uncertainty about the location and
+size of each object. We’ll describe an object’s location and size as its
+“pose” (<code class="docutils literal"><span class="pre">z_where</span></code>). To produce the final image, each object will first
+be located within a larger image (<code class="docutils literal"><span class="pre">y</span></code>) using the pose infomation
+<code class="docutils literal"><span class="pre">z_where</span></code>. Finally, the <code class="docutils literal"><span class="pre">y</span></code>s from all time steps will be combined
+additively to produce the final image <code class="docutils literal"><span class="pre">x</span></code>.</p>
+<p>Here’s a picture (reproduced from [1]) that shows two steps of this
+process:</p>
+<center>
+<figure style='padding: 0 0 1em'>
+<img src='_static/img/model-generative.png' style='width: 35%;'>
+<figcaption style='font-size: 90%; padding: 0.5em 0 0'>
+<b>Figure 1:</b> Two steps of the generative process.
+</figcaption>
+</figure>
+</center><p>Inference is performed in this model using <a class="reference external" href="svi_part_i.html">amortized stochastic
+variational inference</a> (SVI). The parameters of the
+neural network are also optimized during inference. Performing inference
+in such rich models is always difficult, but the presence of discrete
+choices (the number of steps in this case) makes inference in this model
+particularly tricky. For this reason the authors use a technique called
+data dependent baselines to achieve good performance. This technique can
+be implemented in Pyro, and we’ll see how later in the tutorial.</p>
+</div>
+<div class="section" id="Model">
+<h2>Model<a class="headerlink" href="#Model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Generating-a-single-object">
+<h3>Generating a single object<a class="headerlink" href="#Generating-a-single-object" title="Permalink to this headline">¶</a></h3>
+<p>Let’s look at the model more closely. At the core of the model is the
+generative process for a single object. Recall that:</p>
+<ul class="simple">
+<li>At each step a single object is generated.</li>
+<li>Each object is generated by passing its latent code through a neural
+network.</li>
+<li>We maintain uncertainty about the latent code used to generate each
+object, as well as its pose.</li>
+</ul>
+<p>This can be expressed in Pyro like so:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span># Create the neural network. This takes a latent code, z_what, to pixel intensities.
+class Decoder(nn.Module):
+    def __init__(self):
+        super(Decoder, self).__init__()
+        self.l1 = nn.Linear(50, 200)
+        self.l2 = nn.Linear(200, 400)
+
+    def forward(self, z_what):
+        h = relu(self.l1(z_what))
+        return sigmoid(self.l2(h))
+
+decode = Decoder()
+
+z_where_prior_mu = Variable(torch.Tensor([3, 0, 0]))
+z_where_prior_sigma = Variable(torch.Tensor([0.1, 1, 1]))
+z_what_prior_mu = ng_zeros(50)
+z_what_prior_sigma = ng_ones(50)
+
+def model_step_sketch(t):
+    # Sample object pose. This is a 3-dimensional vector representing x,y position and size.
+    z_where = pyro.sample(&#39;z_where_{}&#39;.format(t),
+                          dist.normal,
+                          z_where_prior_mu,
+                          z_where_prior_sigma,
+                          batch_size=1)
+
+    # Sample object code. This is a 50-dimensional vector.
+    z_what = pyro.sample(&#39;z_what_{}&#39;.format(t),
+                         dist.normal,
+                         z_what_prior_mu,
+                         z_what_prior_sigma,
+                         batch_size=1)
+
+    # Map code to pixel space using the neural network.
+    y_att = decode(z_what)
+
+    # Position/scale object within larger image.
+    y = object_to_image(z_where, y_att)
+
+    return y
+</pre></div>
+</div>
+</div>
+<p>Hopefully the use of <code class="docutils literal"><span class="pre">pyro.sample</span></code> and PyTorch networks within a model
+seem familiar at this point. If not you might want to review the <a class="reference external" href="vae.html">VAE
+tutorial</a>. One thing to note is that we include the current
+step <code class="docutils literal"><span class="pre">t</span></code> in the name passed to <code class="docutils literal"><span class="pre">pyro.sample</span></code> to ensure that names
+are unique across steps.</p>
+<p>The <code class="docutils literal"><span class="pre">object_to_image</span></code> function is specific to this model and warrants
+further attention. Recall that the neural network (<code class="docutils literal"><span class="pre">decode</span></code> here) will
+output a small image, and that we would like to add this to the output
+image after performing any translation and scaling required to achieve
+the pose (location and size) described by <code class="docutils literal"><span class="pre">z_where</span></code>. It’s not clear
+how to do this, and in particular it’s not obvious that this can be
+implemented in a way that preserves the differentiability of our model,
+which we require in order to perform <a class="reference external" href="svi_part_i.html">SVI</a>. However,
+it turns out we can do this this using a spatial transformer network
+(STN) [2].</p>
+<p>Happily for us, PyTorch makes it easy to implement a STN using its
+<a class="reference external" href="http://pytorch.org/docs/master/nn.html#grid-sample">grid_sample</a> and
+<a class="reference external" href="http://pytorch.org/docs/master/nn.html#affine-grid">affine_grid</a>
+functions. <code class="docutils literal"><span class="pre">object_to_image</span></code> is a simple function that calls these,
+doing a little extra work to massage <code class="docutils literal"><span class="pre">z_where</span></code> into the expected
+format.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>def expand_z_where(z_where):
+    # Takes 3-dimensional vectors, and massages them into 2x3 matrices with elements like so:
+    # [s,x,y] -&gt; [[s,0,x],
+    #             [0,s,y]]
+    n = z_where.size(0)
+    expansion_indices = Variable(torch.LongTensor([1, 0, 2, 0, 1, 3]))
+    out = torch.cat((ng_zeros([1, 1]).expand(n, 1), z_where), 1)
+    return torch.index_select(out, 1, expansion_indices).view(n, 2, 3)
+
+def object_to_image(z_where, obj):
+    n = obj.size(0)
+    theta = expand_z_where(z_where)
+    grid = affine_grid(theta, torch.Size((n, 1, 50, 50)))
+    out = grid_sample(obj.view(n, 1, 20, 20), grid)
+    return out.view(n, 50, 50)
+</pre></div>
+</div>
+</div>
+<p>A discussion of the details of the STN is beyond the scope of this
+tutorial. For our purposes however, it suffices to keep in mind that
+<code class="docutils literal"><span class="pre">object_to_image</span></code> takes the small image generated by the neural
+network and places it within a larger image with the desired pose.</p>
+<p>Let’s visualize the results of calling <code class="docutils literal"><span class="pre">model_step_sketch</span></code> a few times
+to clarify this:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>pyro.set_rng_seed(0)
+samples = [model_step_sketch(0)[0] for _ in range(5)]
+show_images(samples)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/air_11_0.png" src="_images/air_11_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Generating-an-entire-image">
+<h3>Generating an entire image<a class="headerlink" href="#Generating-an-entire-image" title="Permalink to this headline">¶</a></h3>
+<p>Having completed the implementation of a single step, we next consider
+how we can use this to generate an entire image. Recall that we would
+like to maintain uncertainty over the number of steps used to generate
+each data point. One choice we could make for the prior over the number
+of steps is the geometric distribution, which can be expressed as
+follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>pyro.set_rng_seed(0)
+def geom(num_trials=0):
+    p = Variable(torch.Tensor([0.5]))
+    x = pyro.sample(&#39;x{}&#39;.format(num_trials), dist.bernoulli, p)
+    if x.data[0] == 1:
+        return num_trials
+    else:
+        return geom(num_trials + 1)
+
+# Generate some samples.
+for _ in range(5):
+    print(&#39;sampled {}&#39;.format(geom()))
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sampled 8
+sampled 2
+sampled 0
+sampled 0
+sampled 1
+</pre></div></div>
+</div>
+<p>This is a direct translation of the definition of the geometric
+distribution as the number of failures before a success in a series of
+Bernoulli trials. Here we express this as a recursive function that
+passes around a counter representing the number of trials made,
+<code class="docutils literal"><span class="pre">num_trials</span></code>. This function samples from the Bernoulli and returns
+<code class="docutils literal"><span class="pre">num_trials</span></code> if <code class="docutils literal"><span class="pre">x</span> <span class="pre">==</span> <span class="pre">1</span></code> (which represents success), otherwise it
+makes a recursive call, incrementing the counter.</p>
+<p>The use of a geometric prior is appealing because it does not bound the
+number of steps the model can use a priori. It’s also convenient,
+because by extending <code class="docutils literal"><span class="pre">geometric</span></code> to generate an object before each
+recursive call, we turn this from a geometric distribution over counts
+to a distribution over images with a geometrically distributed number of
+steps.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>def geom_prior(x, step=0):
+    p = Variable(torch.Tensor([0.5]))
+    i = pyro.sample(&#39;i{}&#39;.format(step), dist.bernoulli, p)
+    if i.data[0] == 1:
+        return x
+    else:
+        x = x + model_step_sketch(step)
+        return geom_prior(x, step + 1)
+</pre></div>
+</div>
+</div>
+<p>Let’s visualize some samples from this distribution:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>pyro.set_rng_seed(13)
+x_empty = ng_zeros(1, 50, 50)
+samples = [geom_prior(x_empty)[0] for _ in range(5)]
+show_images(samples)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/air_17_0.png" src="_images/air_17_0.png" />
+</div>
+</div>
+<div class="section" id="Aside:-Vectorized-mini-batches">
+<h4>Aside: Vectorized mini-batches<a class="headerlink" href="#Aside:-Vectorized-mini-batches" title="Permalink to this headline">¶</a></h4>
+<p>In our final implementation we would like to generate a mini batch of
+samples in parallel for efficiency. While Pyro supports vectorized mini
+batches with <code class="docutils literal"><span class="pre">iarange</span></code>, it currently assumes that each <code class="docutils literal"><span class="pre">sample</span></code>
+statement within <code class="docutils literal"><span class="pre">iarange</span></code> makes a choice for all samples in the mini
+batch. This is problematic for us because as we have just seen, each
+sample from our model can take a different number of steps, and hence
+make a different number of choices.</p>
+<p>One way around this is to arrange for all samples to take the same
+number of steps. Of course, we still want to have differing numbers of
+objects in the images we generate, so we will take the occurence of a
+successful Bernoulli trial to indicate that we should stop adding the
+objects we generate to the output image, and use some other criteria to
+decide when to stop making further steps.</p>
+<p>Even though this approach performs redundant computation, the gains from
+using mini batches are so large that this is still a win overall.
+(Eventually though, we’d like to be able to express the model in a way
+that avoids this redundant computation.)</p>
+<p>Following [1] we choose to take a fixed number of steps for each sample.
+(By doing so we no longer specify a geometric distribution over the
+number of steps, since the number of steps is now bounded. It would be
+interesting to explore the alternative of having each sample in the
+batch take steps until a successful Bernoulli trial has occured in each,
+as this would retain the geometric prior.)</p>
+<p>Here’s an updated model step function that implements this idea. The
+only changes from <code class="docutils literal"><span class="pre">model_step_sketch</span></code> are that we now conditionally
+add the object to the output image based on a value sampled from a
+Bernoulli distribution, and we’ve added a new parameter <code class="docutils literal"><span class="pre">n</span></code> that
+specifies the size of the mini batch.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>def model_step(n, t, prev_x, prev_z_pres):
+
+    # Sample variable indicating whether to add this object to the output.
+
+    # We multiply the success probability of 0.5 by the value sampled for this
+    # choice in the previous step. By doing so we add objects to the output until
+    # the first 0 is sampled, after which we add no further objects.
+    z_pres = pyro.sample(&#39;z_pres_{}&#39;.format(t), dist.bernoulli, 0.5 * prev_z_pres)
+
+    z_where = pyro.sample(&#39;z_where_{}&#39;.format(t),
+                          dist.normal,
+                          z_where_prior_mu,
+                          z_where_prior_sigma,
+                          batch_size=n)
+
+    z_what = pyro.sample(&#39;z_what_{}&#39;.format(t),
+                         dist.normal,
+                         z_what_prior_mu,
+                         z_what_prior_sigma,
+                         batch_size=n)
+
+    y_att = decode(z_what)
+    y = object_to_image(z_where, y_att)
+
+    # Combine the image generated at this step with the image so far.
+    x = prev_x + y * z_pres.view(-1, 1, 1)
+
+    return x, z_pres
+</pre></div>
+</div>
+</div>
+<p>By iterating this step function we can produce an entire image, composed
+of multiple objects. Since each image in the multi-mnist dataset
+contains zero, one or two digits we will allow the model to use up to
+(and including) three steps. This will allow us to observe whether
+inference avoids using the unnecessary final step, and to test the
+model’s ability to generalize to images with more digits than are
+present in the dataset.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>def prior(n):
+    x = ng_zeros(n, 50, 50)
+    z_pres = ng_ones(n, 1)
+    for t in range(3):
+        x, z_pres = model_step(n, t, x, z_pres)
+    return x
+</pre></div>
+</div>
+</div>
+<p>We have now fully specified the prior for our model. Let’s visualize
+some samples to get a feel for this distribution:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>pyro.set_rng_seed(87678)
+show_images(prior(5))
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/air_23_0.png" src="_images/air_23_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Specifying-the-likelihood">
+<h4>Specifying the likelihood<a class="headerlink" href="#Specifying-the-likelihood" title="Permalink to this headline">¶</a></h4>
+<p>The last thing we need in order to complete the specification of the
+model is a likelihood function. Following [1] we will use a Gaussian
+likelihood with a fixed standard deviation of 0.3. This is straight
+forward to implement using <code class="docutils literal"><span class="pre">pyro.observe</span></code>.</p>
+<p>When we later come to perform inference we will find it convenient to
+package the prior and likelihood into a single function. This is also a
+convenient place to introduce <code class="docutils literal"><span class="pre">iarange</span></code>, which we use to implement
+data subsampling, and to register the networks we would like to optimize
+with <code class="docutils literal"><span class="pre">pyro.module</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>def model(data):
+    # Register network for optimization.
+    pyro.module(&quot;decode&quot;, decode)
+    with pyro.iarange(&#39;data&#39;, data.size(0)) as indices:
+        batch = data[indices]
+        x = prior(batch.size(0)).view(-1, 50 * 50)
+        sd = (0.3 * ng_ones(1)).expand_as(x)
+        pyro.observe(&#39;obs&#39;, dist.normal, batch, x, sd)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Guide">
+<h2>Guide<a class="headerlink" href="#Guide" title="Permalink to this headline">¶</a></h2>
+<p>Following [1] we will perform <a class="reference external" href="svi_part_i.html">amortized stochastic variational
+inference</a> in this model. Pyro provides general
+purpose machinery that implements most of this inference strategy, but
+as we have seen in earlier tutorials we are required to provide a model
+specific guide. What we call a guide in Pyro is exactly the entity
+called the “inference network” in the paper.</p>
+<p>We will structure the guide around a recurrent network to allow the
+guide to capture (some of) the dependencies we expect to be present in
+the true posterior. At each step the recurrent network will generate the
+parameters for the choices made within the step. The values sampled will
+be fed back into the recurrent network so that this information can be
+used when computing the parameters for the next step. The guide for the
+<a class="reference external" href="dmm.html">Deep Markov Model</a> shares a similar structure.</p>
+<p>As in the model, the core of the guide is the logic for a single step.
+Here’s a sketch of an implementation of this:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>def guide_step_basic(t, data, prev):
+
+    # The RNN takes the images and choices from the previous step as input.
+    rnn_input = torch.cat((data, prev.z_where, prev.z_what, prev.z_pres), 1)
+    h, c = rnn(rnn_input, (prev.h, prev.c))
+
+    # Compute parameters for all choices made this step, by passing
+    # the RNN hidden start through another neural network.
+    z_pres_p, z_where_mu, z_where_sigma, z_what_mu, z_what_sigma = predict_basic(h)
+
+    z_pres = pyro.sample(&#39;z_pres_{}&#39;.format(t),
+                         dist.bernoulli, z_pres_p * prev.z_pres)
+
+    z_where = pyro.sample(&#39;z_where_{}&#39;.format(t),
+                          dist.normal, z_where_mu, z_where_sigma)
+
+    z_what = pyro.sample(&#39;z_what_{}&#39;.format(t),
+                         dist.normal, z_what_mu, z_what_sigma)
+
+    return # values for next step
+</pre></div>
+</div>
+</div>
+<p>This would be a reasonable guide to use with this model, but the paper
+describes a crucial improvement we can make to the code above. Recall
+that the guide will output information about an object’s pose and its
+latent code at each step. The improvement we can make is based on the
+observation that once we have inferred the pose of an object, we can do
+a better job of inferring its latent code if we use the pose information
+to crop the object from the input image, and pass the result (which
+we’ll call a “window”) through an additional network in order to compute
+the parameters of the latent code. We’ll call this additional network
+the “encoder” below.</p>
+<p>Here’s how we can implement this improved guide, and a fleshed out
+implementation of the networks involved:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>rnn = nn.LSTMCell(2554, 256)
+
+# Takes pixel intensities of the attention window to parameters (mean,
+# standard deviation) of the distribution over the latent code,
+# z_what.
+class Encoder(nn.Module):
+    def __init__(self):
+        super(Encoder, self).__init__()
+        self.l1 = nn.Linear(400, 200)
+        self.l2 = nn.Linear(200, 100)
+
+    def forward(self, data):
+        h = relu(self.l1(data))
+        a = self.l2(h)
+        return a[:, 0:50], softplus(a[:, 50:])
+
+encode = Encoder()
+
+# Takes the guide RNN hidden state to parameters of
+# the guide distributions over z_where and z_pres.
+class Predict(nn.Module):
+    def __init__(self, ):
+        super(Predict, self).__init__()
+        self.l = nn.Linear(256, 7)
+
+    def forward(self, h):
+        a = self.l(h)
+        z_pres_p = sigmoid(a[:, 0:1]) # Squish to [0,1]
+        z_where_mu = a[:, 1:4]
+        z_where_sigma = softplus(a[:, 4:]) # Squish to &gt;0
+        return z_pres_p, z_where_mu, z_where_sigma
+
+predict = Predict()
+
+def guide_step_improved(t, data, prev):
+
+    rnn_input = torch.cat((data, prev.z_where, prev.z_what, prev.z_pres), 1)
+    h, c = rnn(rnn_input, (prev.h, prev.c))
+    z_pres_p, z_where_mu, z_where_sigma = predict(h)
+
+    z_pres = pyro.sample(&#39;z_pres_{}&#39;.format(t),
+                         dist.bernoulli, z_pres_p * prev.z_pres)
+
+    z_where = pyro.sample(&#39;z_where_{}&#39;.format(t),
+                          dist.normal, z_where_mu, z_where_sigma)
+
+    # New. Crop a small window from the input.
+    x_att = image_to_object(z_where, data)
+
+    # Compute the parameter of the distribution over z_what
+    # by passing the window through the encoder network.
+    z_what_mu, z_what_sigma = encode(x_att)
+
+    z_what = pyro.sample(&#39;z_what_{}&#39;.format(t),
+                         dist.normal, z_what_mu, z_what_sigma)
+
+    return # values for next step
+</pre></div>
+</div>
+</div>
+<p>Since we would like to maintain differentiability of the guide we again
+use a STN to perform the required “cropping”. The <code class="docutils literal"><span class="pre">image_to_object</span></code>
+function performs the opposite transform to the object_to_image function
+used in the guide. That is, the former takes a small image and places it
+on a larger image, and the latter crops a small image from a larger
+image.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>def z_where_inv(z_where):
+    # Take a batch of z_where vectors, and compute their &quot;inverse&quot;.
+    # That is, for each row compute:
+    # [s,x,y] -&gt; [1/s,-x/s,-y/s]
+    # These are the parameters required to perform the inverse of the
+    # spatial transform performed in the generative model.
+    n = z_where.size(0)
+    out = torch.cat((ng_ones([1, 1]).type_as(z_where).expand(n, 1), -z_where[:, 1:]), 1)
+    out = out / z_where[:, 0:1]
+    return out
+
+def image_to_object(z_where, image):
+    n = image.size(0)
+    theta_inv = expand_z_where(z_where_inv(z_where))
+    grid = affine_grid(theta_inv, torch.Size((n, 1, 20, 20)))
+    out = grid_sample(image.view(n, 1, 50, 50), grid)
+    return out.view(n, -1)
+</pre></div>
+</div>
+</div>
+<div class="section" id="Another-perspective">
+<h3>Another perspective<a class="headerlink" href="#Another-perspective" title="Permalink to this headline">¶</a></h3>
+<p>So far we’ve considered the model and the guide in isolation, but we
+gain an interesting perspective if we zoom out and look at the model and
+guide computation as a whole. Doing so, we see that at each step AIR
+includes a sub-computation that has the same structure as a <a class="reference external" href="vae.html">Variational
+Auto-encoder</a> (VAE).</p>
+<p>To see this, notice that the guide passes the window through a neural
+network (the encoder) to generate the parameters of the distribution
+over a latent code, and the model passes samples from this latent code
+distribution through another neural network (the decoder) to generate an
+output window. This structure is highlighted in the following figure,
+reproduced from [1]:</p>
+<center>
+<figure style='padding: 0 0 1em'>
+<img src='_static/img/model-micro.png' style='width: 35%;'>
+<figcaption style='font-size: 90%; padding: 0.5em 0 0'>
+<b>Figure 2:</b> Interaction between the guide and model at each step.
+</figcaption>
+</figure>
+</center><p>From this perspective AIR is seen as a sequential variant of the VAE.
+The act of cropping a small window from the input image serves to
+restrict the attention of a VAE to a small region of the input image at
+each step; hence “Attend, Infer, Repeat”.</p>
+</div>
+</div>
+<div class="section" id="Inference">
+<h2>Inference<a class="headerlink" href="#Inference" title="Permalink to this headline">¶</a></h2>
+<p>As we mentioned in the introduction, successfully performing inference
+in this model is a challenge. In particular, the presence of discrete
+choices in the model makes inference trickier than in a model in which
+all choices can be reparameterized. The underlying problem we face is
+that the gradient estimates we use in the optimization performed by
+variational inference have much higher variance in the presence of
+discrete choices.</p>
+<p>To bring this variance under control, the paper applies a technique
+called “data dependent baselines” (AKA “neural baselines”) to the
+discrete choices in the model.</p>
+<div class="section" id="Data-dependent-baselines">
+<h3>Data dependent baselines<a class="headerlink" href="#Data-dependent-baselines" title="Permalink to this headline">¶</a></h3>
+<p>Happily for us, Pyro includes support for data dependent baselines. If
+you are not already familiar with this idea, you might want to read <a class="reference external" href="svi_part_iii.html">our
+introduction</a> before continuing. As model authors
+we only have to implement the neural network, pass it our data as input,
+and feed its output to <code class="docutils literal"><span class="pre">pyro.sample</span></code>. Pyro’s inference back-end will
+ensure that the baseline is included in the gradient estimator used for
+inference, and that the network parameters are updated appropriately.</p>
+<p>Let’s see how we can add data dependent baselines to our AIR
+implementation. We need a neural network that can output a (scalar)
+baseline value at each discrete choice in the guide, having received a
+multi-mnist image and the values sampled by the guide so far as input.
+Notice that this is very similar to the structure of the guide network,
+and indeed we will again use a recurrent network.</p>
+<p>To implement this we will first write a short helper function that
+implements a single step of the RNN we’ve just described:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>bl_rnn = nn.LSTMCell(2554, 256)
+bl_predict = nn.Linear(256, 1)
+
+# Use an RNN to compute the baseline value. This network takes the
+# input images and the values samples so far as input.
+def baseline_step(x, prev):
+    rnn_input = torch.cat((x,
+                           prev.z_where.detach(),
+                           prev.z_what.detach(),
+                           prev.z_pres.detach()), 1)
+    bl_h, bl_c = bl_rnn(rnn_input, (prev.bl_h, prev.bl_c))
+    bl_value = bl_predict(bl_h)
+    return bl_value, bl_h, bl_c
+</pre></div>
+</div>
+</div>
+<p>Notice that we <code class="docutils literal"><span class="pre">detach</span></code> values sampled by the guide before passing
+them to the baseline network. This is important as the baseline network
+and the guide network are entirely separate networks optimized with
+different objectives. Without this, gradients would flow from the
+baseline network into the guide network. When using data dependent
+baselines we must do this whenever we feed values sampled by the guide
+into the baselines network. (If we don’t we’ll trigger a PyTorch
+run-time error.)</p>
+<p>We now have everything we need to complete the implementation of the
+guide. Our final <code class="docutils literal"><span class="pre">guide_step</span></code> function will be very similar to
+<code class="docutils literal"><span class="pre">guide_step_improved</span></code> introduced above. The only change is that we
+will call the <code class="docutils literal"><span class="pre">baseline_step</span></code> helper and pass the baseline value it
+returns to <code class="docutils literal"><span class="pre">pyro.sample</span></code>, completing the baseline implementation.
+We’ll also write a <code class="docutils literal"><span class="pre">guide</span></code> function that will iterate <code class="docutils literal"><span class="pre">guide_step</span></code>
+in order to provide a guide for the whole model.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>GuideState = namedtuple(&#39;GuideState&#39;, [&#39;h&#39;, &#39;c&#39;, &#39;bl_h&#39;, &#39;bl_c&#39;, &#39;z_pres&#39;, &#39;z_where&#39;, &#39;z_what&#39;])
+def initial_guide_state(n):
+    return GuideState(h=ng_zeros(n, 256),
+                      c=ng_zeros(n, 256),
+                      bl_h=ng_zeros(n, 256),
+                      bl_c=ng_zeros(n, 256),
+                      z_pres=ng_ones(n, 1),
+                      z_where=ng_zeros(n, 3),
+                      z_what=ng_zeros(n, 50))
+
+def guide_step(t, data, prev):
+
+    rnn_input = torch.cat((data, prev.z_where, prev.z_what, prev.z_pres), 1)
+    h, c = rnn(rnn_input, (prev.h, prev.c))
+    z_pres_p, z_where_mu, z_where_sigma = predict(h)
+
+    # Here we compute the baseline value, and pass it to sample.
+    baseline_value, bl_h, bl_c = baseline_step(data, prev)
+    z_pres = pyro.sample(&#39;z_pres_{}&#39;.format(t),
+                         dist.bernoulli,
+                         z_pres_p * prev.z_pres,
+                         baseline=dict(baseline_value=baseline_value))
+
+    z_where = pyro.sample(&#39;z_where_{}&#39;.format(t),
+                          dist.normal, z_where_mu, z_where_sigma)
+
+    x_att = image_to_object(z_where, data)
+
+    z_what_mu, z_what_sigma = encode(x_att)
+
+    z_what = pyro.sample(&#39;z_what_{}&#39;.format(t),
+                         dist.normal, z_what_mu, z_what_sigma)
+
+    return GuideState(h=h, c=c, bl_h=bl_h, bl_c=bl_c, z_pres=z_pres, z_where=z_where, z_what=z_what)
+
+def guide(data):
+    # Register networks for optimization.
+    pyro.module(&#39;rnn&#39;, rnn),
+    pyro.module(&#39;predict&#39;, predict),
+    pyro.module(&#39;encode&#39;, encode),
+    pyro.module(&#39;bl_rnn&#39;, bl_rnn)
+    pyro.module(&#39;bl_predict&#39;, bl_predict)
+
+    with pyro.iarange(&#39;data&#39;, data.size(0), subsample_size=64) as indices:
+        batch = data[indices]
+        state = initial_guide_state(batch.size(0))
+        steps = []
+        for t in range(3):
+            state = guide_step(t, batch, state)
+            steps.append(state)
+        return steps
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Putting-it-all-together">
+<h3>Putting it all together<a class="headerlink" href="#Putting-it-all-together" title="Permalink to this headline">¶</a></h3>
+<p>We have now completed the implementation of the model and the guide. As
+we have already seen in earlier tutorials, we need write only a few more
+lines of code to begin performing inference:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython2"><div class="highlight"><pre>
+<span></span>data = mnist.view(-1, 50 * 50)
+
+svi = SVI(model,
+          guide,
+          optim.Adam({&#39;lr&#39;: 1e-4}),
+          loss=&#39;ELBO&#39;,
+          trace_graph=True)
+
+for i in range(5):
+    loss = svi.step(data)
+    print(&#39;i={}, elbo={:.2f}&#39;.format(i, loss / data.size(0)))
+</pre></div>
+</div>
+</div>
+<p>One key detail here is that we pass the <code class="docutils literal"><span class="pre">trace_graph=True</span></code> option to
+<code class="docutils literal"><span class="pre">SVI</span></code>. This enables a more <a class="reference external" href="svi_part_iii.html">sophisticated gradient
+estimator</a> (implicity used in [1]) that further
+reduces the variance of gradient estimates by making use of independence
+information included in the model. Use of this feature is necessary in
+order to achieve good results in the presence of discrete choices.</p>
+</div>
+</div>
+<div class="section" id="Improvements">
+<h2>Improvements<a class="headerlink" href="#Improvements" title="Permalink to this headline">¶</a></h2>
+<p>Our <a class="reference external" href="https://github.com/uber/pyro/tree/dev/examples/air">standalone AIR
+implementation</a>
+includes a few simple improvements to the basic recipe given in this
+tutorial:</p>
+<ul class="simple">
+<li>It is reported to be useful in practice to use a different learning
+rate for the baseline network. In [1] a learning rate of <code class="docutils literal"><span class="pre">1e-4</span></code> was
+used for the guide network, and a learning rate of <code class="docutils literal"><span class="pre">1e-3</span></code> was used
+for the baseline network. This is straight forward to implement in
+Pyro by tagging modules associated with the baseline network and
+passing multiple learning rates to the optimizer. (See the section on
+optimizers in part I of the SVI
+tutorial for more detail.)</li>
+<li>Use of larger neural networks.</li>
+<li>Use of optimizable parameters for the initial guide state.</li>
+</ul>
+</div>
+<div class="section" id="Results">
+<h2>Results<a class="headerlink" href="#Results" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+This section will be updated with more results.</div>
+<p>The following images show the progress made by our <a class="reference external" href="https://github.com/uber/pyro/tree/dev/examples/air">standalone
+implementation</a>
+during an inference run. The top image shows four data points from the
+training set. The bottom image is a visualization of a sample from the
+guide (for these data points) that shows the values sampled for
+<code class="docutils literal"><span class="pre">z_pres</span></code> and <code class="docutils literal"><span class="pre">z_where</span></code>. It also shows reconstructions of the input
+obtained by passing the sample from the guide back through the model to
+generate an output image.</p>
+<center>
+<figure style='padding: 0 0 1em'>
+<div style='padding: 0 0 0.5em'><img src="_static/img/air_inputs.jpg" /></div>
+<div><img src="_static/img/air_reconstructions.jpg" /></div>
+<figcaption style='font-size: 90%; padding: 0.5em 0 0'><b>Figure 3:</b> <i>Top:</i> Multi-mnist data points. <i>Bottom:</i> Visualization of a sample from the guide and the model's reconstruction of the input.</figcaption>
+</figure>
+</center><p>Note that at this stage of inference the locations of most of the digits
+are inferred accurately but object counts are not.</p>
+</div>
+<div class="section" id="References">
+<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<p>[1]
+<code class="docutils literal"><span class="pre">Attend,</span> <span class="pre">Infer,</span> <span class="pre">Repeat:</span> <span class="pre">Fast</span> <span class="pre">Scene</span> <span class="pre">Understanding</span> <span class="pre">with</span> <span class="pre">Generative</span> <span class="pre">Models</span></code>
+&nbsp;&nbsp;&nbsp;&nbsp; S. M. Ali Eslami and Nicolas Heess and Theophane Weber and Yuval
+Tassa and Koray Kavukcuoglu and Geoffrey E. Hinton</p>
+<p>[2] <code class="docutils literal"><span class="pre">Spatial</span> <span class="pre">Transformer</span> <span class="pre">Networks</span></code> &nbsp;&nbsp;&nbsp;&nbsp; Max Jaderberg and Karen
+Simonyan and Andrew Zisserman</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ss-vae.html" class="btn btn-neutral float-right" title="The Semi-Supervised VAE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dmm.html" class="btn btn-neutral" title="Deep Markov Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Xiongyp.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
