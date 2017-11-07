@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Deep Markov Model &mdash; Pyro实例与教程 0.1.0 documentation</title>
+  <title>Deep Markov Model &mdash; Pyro实例与教程 0.1.0 文档</title>
   
 
   
@@ -32,10 +32,10 @@
   
 
   
-        <link rel="index" title="Index"
+        <link rel="index" title="索引"
               href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Pyro实例与教程 0.1.0 documentation" href="index.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Pyro实例与教程 0.1.0 文档" href="index.html"/>
         <link rel="next" title="Attend Infer Repeat" href="air.html"/>
         <link rel="prev" title="Bayesian Regression" href="bayesian_regression.html"/> 
 
@@ -393,9 +393,9 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="section" id="Deep-Markov-Model">
-<h1>Deep Markov Model<a class="headerlink" href="#Deep-Markov-Model" title="Permalink to this headline">¶</a></h1>
+<h1>Deep Markov Model<a class="headerlink" href="#Deep-Markov-Model" title="永久链接至标题">¶</a></h1>
 <div class="section" id="Introduction">
-<h2>Introduction<a class="headerlink" href="#Introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#Introduction" title="永久链接至标题">¶</a></h2>
 <p>We’re going to build a deep probabilistic model for sequential data: the
 deep markov model. The particular dataset we want to model is composed
 of snippets of polyphonic music. Each time slice in a sequence spans a
@@ -439,7 +439,7 @@ together Pytorch and Pyro provide all the necessary ingredients. As we
 will see, assembling them will be straightforward. Let’s get to work.</p>
 </div>
 <div class="section" id="The-Model">
-<h2>The Model<a class="headerlink" href="#The-Model" title="Permalink to this headline">¶</a></h2>
+<h2>The Model<a class="headerlink" href="#The-Model" title="永久链接至标题">¶</a></h2>
 <p>A convenient way to describe the high-level structure of the model is
 with a graphical model.</p>
 <center><figure><img src="_static/img/model.png" style="width: 500px;"><figcaption> <font size="+1"><b>Figure 1</b>: The model rolled out for T=3 time steps.</font></figcaption></figure></center><p>Here, we’ve rolled out the model assuming that the sequence of
@@ -487,7 +487,7 @@ apparent from the code, this is just a convenient way for us to
 parameterize the probability distribution <span class="math">\(p({\bf z}_1)\)</span> for the
 first time step, where there are no previous latents to condition on.</p>
 <div class="section" id="The-Gated-Transition-and-the-Emitter">
-<h3>The Gated Transition and the Emitter<a class="headerlink" href="#The-Gated-Transition-and-the-Emitter" title="Permalink to this headline">¶</a></h3>
+<h3>The Gated Transition and the Emitter<a class="headerlink" href="#The-Gated-Transition-and-the-Emitter" title="永久链接至标题">¶</a></h3>
 <p>Without further ado, let’s start writing some code. We first define the
 two Pytorch Modules that correspond to the black squares in Fig. 1.
 First the emission function:</p>
@@ -637,7 +637,7 @@ dynamics (or indeed have the dynamics of part of the latent space be
 linear, while the remainder of the dynamics is non-linear).</p>
 </div>
 <div class="section" id="Model---a-Pyro-Stochastic-Function">
-<h3>Model - a Pyro Stochastic Function<a class="headerlink" href="#Model---a-Pyro-Stochastic-Function" title="Permalink to this headline">¶</a></h3>
+<h3>Model - a Pyro Stochastic Function<a class="headerlink" href="#Model---a-Pyro-Stochastic-Function" title="永久链接至标题">¶</a></h3>
 <p>So far everything we’ve done is pure Pytorch. To finish translating our
 model into code we need to bring Pyro into the picture. Basically we
 need to implement the stochastic nodes (i.e.&nbsp;the circles) in Fig. 1. To
@@ -788,7 +788,7 @@ the model. We leave a discussion of the KL annealing factor for later.</p>
 </div>
 </div>
 <div class="section" id="Inference">
-<h2>Inference<a class="headerlink" href="#Inference" title="Permalink to this headline">¶</a></h2>
+<h2>Inference<a class="headerlink" href="#Inference" title="永久链接至标题">¶</a></h2>
 <p>At this point we’ve fully specified our model. The next step is to set
 ourselves up for inference. As mentioned in the introduction, our
 inference strategy is going to be variational inference (see <a class="reference external" href="svi_part_i.html">SVI Part
@@ -801,7 +801,7 @@ inference strategy available in Pyro. For example, in this particular
 context one could imagine using some variant of Sequential Monte Carlo
 (although this is not currently supported in Pyro).</p>
 <div class="section" id="Guide">
-<h3>Guide<a class="headerlink" href="#Guide" title="Permalink to this headline">¶</a></h3>
+<h3>Guide<a class="headerlink" href="#Guide" title="永久链接至标题">¶</a></h3>
 <p>The purpose of the guide (i.e.&nbsp;the variational distribution) is to
 provide a (parameterized) approximation to the exact posterior
 <span class="math">\(p({\bf z}_{1:T}|{\bf x}_{1:T})\)</span>. Actually, there’s an implicit
@@ -820,7 +820,7 @@ number of parameters required would grow (at least) linearly with
 dataset is <em>amortization</em> (see the analogous discussion in <a class="reference external" href="http://pyro.ai/examples/svi_part_ii.html">SVI Part
 II</a>).</p>
 <div class="section" id="Aside:-Amortization">
-<h4>Aside: Amortization<a class="headerlink" href="#Aside:-Amortization" title="Permalink to this headline">¶</a></h4>
+<h4>Aside: Amortization<a class="headerlink" href="#Aside:-Amortization" title="永久链接至标题">¶</a></h4>
 <p>This works as follows. Instead of introducing variational parameters for
 each sequence in our dataset, we’re going to learn a single parametric
 function <span class="math">\(f({\bf x}_{1:T})\)</span> and work with a variational
@@ -853,7 +853,7 @@ instead takes the trainable (variational) parameter
 <span class="math">\({\bf z}_0^{\rm{q}}\)</span>.</p>
 </div>
 <div class="section" id="Aside:-Guide-Structure">
-<h4>Aside: Guide Structure<a class="headerlink" href="#Aside:-Guide-Structure" title="Permalink to this headline">¶</a></h4>
+<h4>Aside: Guide Structure<a class="headerlink" href="#Aside:-Guide-Structure" title="永久链接至标题">¶</a></h4>
 <p>Why do we setup the RNN to consume the observations from right to left?
 Why not left to right? With this choice our conditional distribution
 <span class="math">\(q({\bf z}_t |...)\)</span> depends on two things:</p>
@@ -1008,7 +1008,7 @@ is no longer in the form of a Pytorch <code class="docutils literal"><span class
 </div>
 </div>
 <div class="section" id="Packaging-the-Model-and-Guide-as-a-Pytorch-Module">
-<h2>Packaging the Model and Guide as a Pytorch Module<a class="headerlink" href="#Packaging-the-Model-and-Guide-as-a-Pytorch-Module" title="Permalink to this headline">¶</a></h2>
+<h2>Packaging the Model and Guide as a Pytorch Module<a class="headerlink" href="#Packaging-the-Model-and-Guide-as-a-Pytorch-Module" title="永久链接至标题">¶</a></h2>
 <p>At this juncture, we’re ready to to proceed to inference. But before we
 do so let’s quickly go over how we packaged the model and guide as a
 single Pytorch Module. This is generally good practice, especially for
@@ -1092,7 +1092,7 @@ Finally, it means that if we’re running on a GPU, the call to <code class="doc
 will move all the parameters into GPU memory.</p>
 </div>
 <div class="section" id="Stochastic-Variational-Inference">
-<h2>Stochastic Variational Inference<a class="headerlink" href="#Stochastic-Variational-Inference" title="Permalink to this headline">¶</a></h2>
+<h2>Stochastic Variational Inference<a class="headerlink" href="#Stochastic-Variational-Inference" title="永久链接至标题">¶</a></h2>
 <p>With our model and guide at hand, we’re finally ready to do inference.
 Before we look at the full logic that is involved in a complete
 experimental script, let’s first see how to take a single gradient step.
@@ -1203,7 +1203,7 @@ of mini-batches, evaluation, and so on. This sort of logic will be
 familiar to any deep learner but let’s see how it looks in PyTorch/Pyro.</p>
 </div>
 <div class="section" id="The-Black-Magic-of-Optimization">
-<h2>The Black Magic of Optimization<a class="headerlink" href="#The-Black-Magic-of-Optimization" title="Permalink to this headline">¶</a></h2>
+<h2>The Black Magic of Optimization<a class="headerlink" href="#The-Black-Magic-of-Optimization" title="永久链接至标题">¶</a></h2>
 <p>Actually, before we get to the guts of training, let’s take a moment and
 think a bit about the optimization problem we’ve setup. We’ve traded
 Bayesian inference in a non-linear model with a high-dimensional latent
@@ -1254,7 +1254,7 @@ longer because of the higher variance. Support for analytic KL
 divergences in Pyro is something we plan to add in the near future.</p>
 </div>
 <div class="section" id="Data-Loading,-Training,-and-Evaluation">
-<h2>Data Loading, Training, and Evaluation<a class="headerlink" href="#Data-Loading,-Training,-and-Evaluation" title="Permalink to this headline">¶</a></h2>
+<h2>Data Loading, Training, and Evaluation<a class="headerlink" href="#Data-Loading,-Training,-and-Evaluation" title="永久链接至标题">¶</a></h2>
 <p>First we load the data. There are 229 sequences in the training dataset,
 each with an average length of ~60 time steps.</p>
 <div class="nbinput docutils container">
@@ -1414,7 +1414,7 @@ by the total number of time slices in the training set (this allows us
 to compare to reference [1]).</p>
 </div>
 <div class="section" id="Evaluation">
-<h2>Evaluation<a class="headerlink" href="#Evaluation" title="Permalink to this headline">¶</a></h2>
+<h2>Evaluation<a class="headerlink" href="#Evaluation" title="永久链接至标题">¶</a></h2>
 <p>This training loop is still missing any kind of evaluation diagnostics.
 Let’s fix that. First we need to prepare the validation and test data
 for evaluation. Since the validation and test datasets are small enough
@@ -1529,7 +1529,7 @@ evaluation mode to account for dropout. We can now stick
 <code class="docutils literal"><span class="pre">do_evaluation()</span></code> into the training loop; see <code class="docutils literal"><span class="pre">dmm.py</span></code> for details.</p>
 </div>
 <div class="section" id="Results">
-<h2>Results<a class="headerlink" href="#Results" title="Permalink to this headline">¶</a></h2>
+<h2>Results<a class="headerlink" href="#Results" title="永久链接至标题">¶</a></h2>
 <p>Let’s make sure that our implementation gives reasonable results. We can
 use the numbers reported in reference [1] as a sanity check. For the
 same dataset and a similar model/guide setup (dimension of the latent
@@ -1575,9 +1575,9 @@ mix (details to be found in the next section).</p>
 reported numbers are different.</p>
 </div>
 <div class="section" id="Bells,-whistles,-and-other-improvements">
-<h2>Bells, whistles, and other improvements<a class="headerlink" href="#Bells,-whistles,-and-other-improvements" title="Permalink to this headline">¶</a></h2>
+<h2>Bells, whistles, and other improvements<a class="headerlink" href="#Bells,-whistles,-and-other-improvements" title="永久链接至标题">¶</a></h2>
 <div class="section" id="Inverse-Autoregressive-Flows">
-<h3>Inverse Autoregressive Flows<a class="headerlink" href="#Inverse-Autoregressive-Flows" title="Permalink to this headline">¶</a></h3>
+<h3>Inverse Autoregressive Flows<a class="headerlink" href="#Inverse-Autoregressive-Flows" title="永久链接至标题">¶</a></h3>
 <p>One of the great things about a probabilistic programming language is
 that it encourages modularity. Let’s showcase an example in the context
 of the DMM. We’re going to make our variational distribution richer by
@@ -1647,7 +1647,7 @@ non-gaussian distribution that is, by construction, richer than the base
 distribution. Voila!</p>
 </div>
 <div class="section" id="Checkpointing">
-<h3>Checkpointing<a class="headerlink" href="#Checkpointing" title="Permalink to this headline">¶</a></h3>
+<h3>Checkpointing<a class="headerlink" href="#Checkpointing" title="永久链接至标题">¶</a></h3>
 <p>If we want to recover from a catastrophic failure in our training loop,
 there are two kinds of state we need to keep track of. The first is the
 various parameters of the model and guide. The second is the state of
@@ -1702,7 +1702,7 @@ loading checkpoints only takes a few lines:</p>
 </div>
 </div>
 <div class="section" id="Some-final-comments">
-<h2>Some final comments<a class="headerlink" href="#Some-final-comments" title="Permalink to this headline">¶</a></h2>
+<h2>Some final comments<a class="headerlink" href="#Some-final-comments" title="永久链接至标题">¶</a></h2>
 <p>A deep markov model is a relatively complex model. Now that we’ve taken
 the effort to implement a version of the deep markov model tailored to
 the polyphonic music dataset, we should ask ourselves what else we can
@@ -1717,7 +1717,7 @@ extra work, the code in this tutorial could be repurposed to enable a
 huge variety of different models.</p>
 </div>
 <div class="section" id="References">
-<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#References" title="永久链接至标题">¶</a></h2>
 <p>[1]
 <code class="docutils literal"><span class="pre">Structured</span> <span class="pre">Inference</span> <span class="pre">Networks</span> <span class="pre">for</span> <span class="pre">Nonlinear</span> <span class="pre">State</span> <span class="pre">Space</span> <span class="pre">Models</span></code>,
 Rahul G. Krishnan, Uri Shalit, David Sontag</p>
@@ -1757,7 +1757,7 @@ Sutskever, Max Welling</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Xiongyp.
+        &copy; Copyright 2017, 小熊.
 
     </p>
   </div>
@@ -1789,6 +1789,7 @@ Sutskever, Max Welling</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

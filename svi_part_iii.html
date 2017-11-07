@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>SVI Part III: ELBO Gradient Estimators &mdash; Pyro实例与教程 0.1.0 documentation</title>
+  <title>SVI Part III: ELBO Gradient Estimators &mdash; Pyro实例与教程 0.1.0 文档</title>
   
 
   
@@ -32,10 +32,10 @@
   
 
   
-        <link rel="index" title="Index"
+        <link rel="index" title="索引"
               href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Pyro实例与教程 0.1.0 documentation" href="index.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Pyro实例与教程 0.1.0 文档" href="index.html"/>
         <link rel="next" title="Variational Autoencoders" href="vae.html"/>
         <link rel="prev" title="SVI Part II: Conditional Independence, Subsampling, and Amortization" href="svi_part_ii.html"/> 
 
@@ -381,9 +381,9 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="section" id="SVI-Part-III:-ELBO-Gradient-Estimators">
-<h1>SVI Part III: ELBO Gradient Estimators<a class="headerlink" href="#SVI-Part-III:-ELBO-Gradient-Estimators" title="Permalink to this headline">¶</a></h1>
+<h1>SVI Part III: ELBO Gradient Estimators<a class="headerlink" href="#SVI-Part-III:-ELBO-Gradient-Estimators" title="永久链接至标题">¶</a></h1>
 <div class="section" id="Setup">
-<h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h2>
+<h2>Setup<a class="headerlink" href="#Setup" title="永久链接至标题">¶</a></h2>
 <p>We’ve defined a Pyro model with observations <span class="math">\({\bf x}\)</span> and latents
 <span class="math">\({\bf z}\)</span> of the form
 <span class="math">\(p_{\theta}({\bf x}, {\bf z}) = p_{\theta}({\bf x}|{\bf z}) p_{\theta}({\bf z})\)</span>.
@@ -417,7 +417,7 @@ f_{\phi}({\bf z}) \right]\]</div>
 <p>Let’s start with the easiest case.</p>
 </div>
 <div class="section" id="Easy-Case:-Reparameterizable-Random-Variables">
-<h2>Easy Case: Reparameterizable Random Variables<a class="headerlink" href="#Easy-Case:-Reparameterizable-Random-Variables" title="Permalink to this headline">¶</a></h2>
+<h2>Easy Case: Reparameterizable Random Variables<a class="headerlink" href="#Easy-Case:-Reparameterizable-Random-Variables" title="永久链接至标题">¶</a></h2>
 <p>Suppose that we can reparameterize things such that</p>
 <div class="math">
 \[\mathbb{E}_{q_{\phi}({\bf z})} \left [f_{\phi}({\bf z}) \right]
@@ -436,7 +436,7 @@ we can now get unbiased estimates of the gradient of interest by taking
 a Monte Carlo estimate of this expectation.</p>
 </div>
 <div class="section" id="Tricky-Case:-Non-reparameterizable-Random-Variables">
-<h2>Tricky Case: Non-reparameterizable Random Variables<a class="headerlink" href="#Tricky-Case:-Non-reparameterizable-Random-Variables" title="Permalink to this headline">¶</a></h2>
+<h2>Tricky Case: Non-reparameterizable Random Variables<a class="headerlink" href="#Tricky-Case:-Non-reparameterizable-Random-Variables" title="永久链接至标题">¶</a></h2>
 <p>What if we can’t do the above reparameterization? Unfortunately this is
 the case for many distributions of interest, for example all discrete
 distributions. In this case our estimator takes a bit more complicated
@@ -482,7 +482,7 @@ In equations:</p>
 \nabla_{\phi} ({\rm surrogate \; loss}) \right]\]</div>
 </div>
 <div class="section" id="Variance-or-Why-I-Wish-I-Was-Doing-MLE-Deep-Learning">
-<h2>Variance or Why I Wish I Was Doing MLE Deep Learning<a class="headerlink" href="#Variance-or-Why-I-Wish-I-Was-Doing-MLE-Deep-Learning" title="Permalink to this headline">¶</a></h2>
+<h2>Variance or Why I Wish I Was Doing MLE Deep Learning<a class="headerlink" href="#Variance-or-Why-I-Wish-I-Was-Doing-MLE-Deep-Learning" title="永久链接至标题">¶</a></h2>
 <p>We now have a general recipe for an unbiased gradient estimator of
 expectations of cost functions. Unfortunately, in the more general case
 where our <span class="math">\(q(\cdot)\)</span> includes non-reparameterizable random
@@ -496,7 +496,7 @@ way to reduce variance by using information from previous estimates of
 <span class="math">\(\mathbb{E}_{q_{\phi}({\bf z})} [ f_{\phi}({\bf z})]\)</span>. As such it
 is somewhat analogous to using momentum in stochastic gradient descent.</p>
 <div class="section" id="Reducing-Variance-via-Dependency-Structure">
-<h3>Reducing Variance via Dependency Structure<a class="headerlink" href="#Reducing-Variance-via-Dependency-Structure" title="Permalink to this headline">¶</a></h3>
+<h3>Reducing Variance via Dependency Structure<a class="headerlink" href="#Reducing-Variance-via-Dependency-Structure" title="永久链接至标题">¶</a></h3>
 <p>In the above discussion we stuck to a general cost function
 <span class="math">\(f_{\phi}({\bf z})\)</span>. We could continue in this vein (the approach
 we’re about to discuss is applicable in the general case) but for
@@ -542,7 +542,7 @@ computations, so <code class="docutils literal"><span class="pre">trace_graph=Tr
 where your model has non-reparameterizable random variables.</p>
 </div>
 <div class="section" id="Aside:-Dependency-tracking-in-Pyro">
-<h3>Aside: Dependency tracking in Pyro<a class="headerlink" href="#Aside:-Dependency-tracking-in-Pyro" title="Permalink to this headline">¶</a></h3>
+<h3>Aside: Dependency tracking in Pyro<a class="headerlink" href="#Aside:-Dependency-tracking-in-Pyro" title="永久链接至标题">¶</a></h3>
 <p>Finally, a word about dependency tracking. Tracking dependency within a
 stochastic function that includes arbitrary Python code is a bit tricky.
 The approach currently implemented in Pyro is analogous to the one used
@@ -563,7 +563,7 @@ pay to consider reordering random variables within a stochastic function
 notions of dependency tracking in a future version of Pyro.</p>
 </div>
 <div class="section" id="Reducing-Variance-with-Data-Dependent-Baselines">
-<h3>Reducing Variance with Data-Dependent Baselines<a class="headerlink" href="#Reducing-Variance-with-Data-Dependent-Baselines" title="Permalink to this headline">¶</a></h3>
+<h3>Reducing Variance with Data-Dependent Baselines<a class="headerlink" href="#Reducing-Variance-with-Data-Dependent-Baselines" title="永久链接至标题">¶</a></h3>
 <p>The second strategy for reducing variance in our ELBO gradient estimator
 goes under the name of baselines (see e.g.&nbsp;reference [6]). It actually
 makes use of the same bit of math that underlies the variance reduction
@@ -597,7 +597,7 @@ reduce the variance. In fact, <span class="math">\(b\)</span> need not be a cons
 depend on any of the random choices upstream (or sidestream) of
 <span class="math">\({\bf z}_i\)</span>.</p>
 <div class="section" id="Baselines-in-Pyro">
-<h4>Baselines in Pyro<a class="headerlink" href="#Baselines-in-Pyro" title="Permalink to this headline">¶</a></h4>
+<h4>Baselines in Pyro<a class="headerlink" href="#Baselines-in-Pyro" title="永久链接至标题">¶</a></h4>
 <p>There are several ways the user can instruct Pyro to use baselines in
 the context of stochastic variational inference. Since baselines can be
 attached to any non-reparameterizable random variable, the current
@@ -607,7 +607,7 @@ which is a dictionary that specifies baseline options. Note that it only
 makes sense to specify baselines for sample statements within the guide
 (and not in the model).</p>
 <div class="section" id="Decaying-Average-Baseline">
-<h5>Decaying Average Baseline<a class="headerlink" href="#Decaying-Average-Baseline" title="Permalink to this headline">¶</a></h5>
+<h5>Decaying Average Baseline<a class="headerlink" href="#Decaying-Average-Baseline" title="永久链接至标题">¶</a></h5>
 <p>The simplest baseline is constructed from a running average of recent
 samples of <span class="math">\(\overline{f_{\phi}({\bf z})}\)</span>. In Pyro this kind of
 baseline can be invoked as follows</p>
@@ -621,7 +621,7 @@ decaying average (default value: <code class="docutils literal"><span class="pre
 </div>
 </div>
 <div class="section" id="Neural-Baselines">
-<h4>Neural Baselines<a class="headerlink" href="#Neural-Baselines" title="Permalink to this headline">¶</a></h4>
+<h4>Neural Baselines<a class="headerlink" href="#Neural-Baselines" title="永久链接至标题">¶</a></h4>
 <p>In some cases a decaying average baseline works well. In others using a
 baseline that depends on upstream randomness is crucial for getting good
 variance reduction. A powerful approach for constructing such a baseline
@@ -710,7 +710,7 @@ depend on <span class="math">\(\theta\)</span> or <span class="math">\(\phi\)</s
 autograd graph with <code class="docutils literal"><span class="pre">detach()</span></code> statements.</p>
 </div>
 <div class="section" id="A-complete-example-with-baselines">
-<h4>A complete example with baselines<a class="headerlink" href="#A-complete-example-with-baselines" title="Permalink to this headline">¶</a></h4>
+<h4>A complete example with baselines<a class="headerlink" href="#A-complete-example-with-baselines" title="永久链接至标题">¶</a></h4>
 <p>Recall that in the <a class="reference external" href="svi_part_i.html">first SVI tutorial</a> we
 considered a bernoulli-beta model for coin flips. Because the beta
 random variable is non-reparameterizable, the corresponding ELBO
@@ -873,7 +873,7 @@ certain model and guide pairs, baselines can provide an even bigger win.</p>
 </div>
 </div>
 <div class="section" id="References">
-<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#References" title="永久链接至标题">¶</a></h2>
 <p>[1] <code class="docutils literal"><span class="pre">Automated</span> <span class="pre">Variational</span> <span class="pre">Inference</span> <span class="pre">in</span> <span class="pre">Probabilistic</span> <span class="pre">Programming</span></code>,
 &nbsp;&nbsp;&nbsp;&nbsp; David Wingate, Theo Weber</p>
 <p>[2] <code class="docutils literal"><span class="pre">Black</span> <span class="pre">Box</span> <span class="pre">Variational</span> <span class="pre">Inference</span></code>,&nbsp;&nbsp;&nbsp;&nbsp; Rajesh Ranganath, Sean
@@ -911,7 +911,7 @@ Ritchie, Paul Horsfall, Noah D. Goodman</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Xiongyp.
+        &copy; Copyright 2017, 小熊.
 
     </p>
   </div>
@@ -943,6 +943,7 @@ Ritchie, Paul Horsfall, Noah D. Goodman</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

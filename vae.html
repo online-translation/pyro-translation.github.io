@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Variational Autoencoders &mdash; Pyro实例与教程 0.1.0 documentation</title>
+  <title>Variational Autoencoders &mdash; Pyro实例与教程 0.1.0 文档</title>
   
 
   
@@ -32,10 +32,10 @@
   
 
   
-        <link rel="index" title="Index"
+        <link rel="index" title="索引"
               href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Pyro实例与教程 0.1.0 documentation" href="index.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Pyro实例与教程 0.1.0 文档" href="index.html"/>
         <link rel="next" title="Bayesian Regression" href="bayesian_regression.html"/>
         <link rel="prev" title="SVI Part III: ELBO Gradient Estimators" href="svi_part_iii.html"/> 
 
@@ -207,9 +207,9 @@
 }
 </style>
 <div class="section" id="Variational-Autoencoders">
-<h1>Variational Autoencoders<a class="headerlink" href="#Variational-Autoencoders" title="Permalink to this headline">¶</a></h1>
+<h1>Variational Autoencoders<a class="headerlink" href="#Variational-Autoencoders" title="永久链接至标题">¶</a></h1>
 <div class="section" id="Introduction">
-<h2>Introduction<a class="headerlink" href="#Introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#Introduction" title="永久链接至标题">¶</a></h2>
 <p>The variational autoencoder (VAE) is arguably the simplest setup that
 realizes deep probabilistic modeling. Note that we’re being careful in
 our choice of language here. The VAE isn’t a model as such—rather the
@@ -325,7 +325,7 @@ this setup: the model is the decoder and the guide is the encoder.
 Together, they can be thought of as an autoencoder.</p>
 </div>
 <div class="section" id="VAE-in-Pyro">
-<h2>VAE in Pyro<a class="headerlink" href="#VAE-in-Pyro" title="Permalink to this headline">¶</a></h2>
+<h2>VAE in Pyro<a class="headerlink" href="#VAE-in-Pyro" title="永久链接至标题">¶</a></h2>
 <p>So much for preliminaries. Let’s see how we implement a VAE in Pyro. The
 dataset we’re going to model is MNIST, a collection of images of
 handwritten digits. Since this is a popular benchmark dataset, we can
@@ -506,7 +506,7 @@ that if we’re running on a GPU, the call to <code class="docutils literal"><sp
 parameters of all the (sub)modules into GPU memory.</p>
 </div>
 <div class="section" id="Inference">
-<h2>Inference<a class="headerlink" href="#Inference" title="Permalink to this headline">¶</a></h2>
+<h2>Inference<a class="headerlink" href="#Inference" title="永久链接至标题">¶</a></h2>
 <p>We’re now ready for inference. First we instantiate an instance of the
 <code class="docutils literal"><span class="pre">VAE</span></code> module (and flag whether or not we’re on GPU)</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">vae</span> <span class="o">=</span> <span class="n">VAE</span><span class="p">(</span><span class="n">use_cuda</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">cuda</span><span class="p">)</span>
@@ -590,7 +590,7 @@ and the reconstructed images should exhibit an interesting variety of
 different styles.</p>
 </div>
 <div class="section" id="Sample-results">
-<h2>Sample results<a class="headerlink" href="#Sample-results" title="Permalink to this headline">¶</a></h2>
+<h2>Sample results<a class="headerlink" href="#Sample-results" title="永久链接至标题">¶</a></h2>
 <p>Training corresponds to maximizing the evidence lower bound (ELBO) over
 the training dataset. We train for 100 iterations and evaluate the ELBO
 for the test dataset, see Figure 3.</p>
@@ -636,7 +636,7 @@ within each class-cluster.</p>
 <a class="reference external" href="https://github.com/uber/pyro/blob/dev/examples/vae.py">Github</a>.</p>
 </div>
 <div class="section" id="References">
-<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#References" title="永久链接至标题">¶</a></h2>
 <p>[1] <code class="docutils literal"><span class="pre">Auto-Encoding</span> <span class="pre">Variational</span> <span class="pre">Bayes</span></code>,&nbsp;&nbsp;&nbsp;&nbsp; Diederik P Kingma, Max
 Welling</p>
 <p>[2]
@@ -667,7 +667,7 @@ Welling</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Xiongyp.
+        &copy; Copyright 2017, 小熊.
 
     </p>
   </div>
@@ -699,6 +699,7 @@ Welling</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

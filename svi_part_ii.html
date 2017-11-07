@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>SVI Part II: Conditional Independence, Subsampling, and Amortization &mdash; Pyro实例与教程 0.1.0 documentation</title>
+  <title>SVI Part II: Conditional Independence, Subsampling, and Amortization &mdash; Pyro实例与教程 0.1.0 文档</title>
   
 
   
@@ -32,10 +32,10 @@
   
 
   
-        <link rel="index" title="Index"
+        <link rel="index" title="索引"
               href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Pyro实例与教程 0.1.0 documentation" href="index.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Pyro实例与教程 0.1.0 文档" href="index.html"/>
         <link rel="next" title="SVI Part III: ELBO Gradient Estimators" href="svi_part_iii.html"/>
         <link rel="prev" title="SVI Part I: An Introduction to Stochastic Variational Inference in Pyro" href="svi_part_i.html"/> 
 
@@ -217,9 +217,9 @@
 }
 </style>
 <div class="section" id="SVI-Part-II:-Conditional-Independence,-Subsampling,-and-Amortization">
-<h1>SVI Part II: Conditional Independence, Subsampling, and Amortization<a class="headerlink" href="#SVI-Part-II:-Conditional-Independence,-Subsampling,-and-Amortization" title="Permalink to this headline">¶</a></h1>
+<h1>SVI Part II: Conditional Independence, Subsampling, and Amortization<a class="headerlink" href="#SVI-Part-II:-Conditional-Independence,-Subsampling,-and-Amortization" title="永久链接至标题">¶</a></h1>
 <div class="section" id="The-Goal:-Scaling-SVI-to-Large-Datasets">
-<h2>The Goal: Scaling SVI to Large Datasets<a class="headerlink" href="#The-Goal:-Scaling-SVI-to-Large-Datasets" title="Permalink to this headline">¶</a></h2>
+<h2>The Goal: Scaling SVI to Large Datasets<a class="headerlink" href="#The-Goal:-Scaling-SVI-to-Large-Datasets" title="永久链接至标题">¶</a></h2>
 <p>For a model with <span class="math">\(N\)</span> observations, running the <code class="docutils literal"><span class="pre">model</span></code> and
 <code class="docutils literal"><span class="pre">guide</span></code> and constructing the ELBO involves evaluating log pdf’s whose
 complexity scales badly with <span class="math">\(N\)</span>. This is a problem if we want to
@@ -236,7 +236,7 @@ with <span class="math">\(M&lt;N\)</span> (for a discussion please see reference
 problem solved! But how do we do this in Pyro?</p>
 </div>
 <div class="section" id="Marking-Conditional-Independence-in-Pyro">
-<h2>Marking Conditional Independence in Pyro<a class="headerlink" href="#Marking-Conditional-Independence-in-Pyro" title="Permalink to this headline">¶</a></h2>
+<h2>Marking Conditional Independence in Pyro<a class="headerlink" href="#Marking-Conditional-Independence-in-Pyro" title="永久链接至标题">¶</a></h2>
 <p>If a user wants to do this sort of thing in Pyro, he or she first needs
 to make sure that the model and guide are written in such a way that
 Pyro can leverage the relevant conditional independencies. Let’s see how
@@ -244,7 +244,7 @@ this is done. Pyro provides two language primitives for marking
 conditional independencies: <code class="docutils literal"><span class="pre">irange</span></code> and <code class="docutils literal"><span class="pre">iarange</span></code>. Let’s start with
 the simpler of the two.</p>
 <div class="section" id="irange">
-<h3><code class="docutils literal"><span class="pre">irange</span></code><a class="headerlink" href="#irange" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal"><span class="pre">irange</span></code><a class="headerlink" href="#irange" title="永久链接至标题">¶</a></h3>
 <p>Let’s return to the example we used in the <a class="reference external" href="svi_part_i.html">previous
 tutorial</a>. For convenience let’s replicate the main
 logic of <code class="docutils literal"><span class="pre">model</span></code> here:</p>
@@ -308,7 +308,7 @@ used instead.</p>
 </div>
 </div>
 <div class="section" id="iarange">
-<h2><code class="docutils literal"><span class="pre">iarange</span></code><a class="headerlink" href="#iarange" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal"><span class="pre">iarange</span></code><a class="headerlink" href="#iarange" title="永久链接至标题">¶</a></h2>
 <p>Conceptually <code class="docutils literal"><span class="pre">iarange</span></code> is the same as <code class="docutils literal"><span class="pre">irange</span></code> except that it is a
 vectorized operation (as <code class="docutils literal"><span class="pre">torch.arange</span></code> is to <code class="docutils literal"><span class="pre">range</span></code>). As such it
 potentially enables large speed-ups compared to the explicit <code class="docutils literal"><span class="pre">for</span></code>
@@ -334,7 +334,7 @@ involved in the <code class="docutils literal"><span class="pre">iarange</span><
 <code class="docutils literal"><span class="pre">iarange</span></code>.</p>
 </div>
 <div class="section" id="Subsampling">
-<h2>Subsampling<a class="headerlink" href="#Subsampling" title="Permalink to this headline">¶</a></h2>
+<h2>Subsampling<a class="headerlink" href="#Subsampling" title="永久链接至标题">¶</a></h2>
 <p>We now know how to mark conditional independence in Pyro. This is useful
 in and of itself (see the <a class="reference external" href="svi_part_iii.html">dependency tracking
 section</a> in SVI Part III), but we’d also like to
@@ -342,7 +342,7 @@ do subsampling so that we can do SVI on large datasets. Depending on the
 structure of the model and guide, Pyro supports several ways of doing
 subsampling. Let’s go through these one by one.</p>
 <div class="section" id="Automatic-subsampling-with-irange-and-iarange">
-<h3>Automatic subsampling with <code class="docutils literal"><span class="pre">irange</span></code> and <code class="docutils literal"><span class="pre">iarange</span></code><a class="headerlink" href="#Automatic-subsampling-with-irange-and-iarange" title="Permalink to this headline">¶</a></h3>
+<h3>Automatic subsampling with <code class="docutils literal"><span class="pre">irange</span></code> and <code class="docutils literal"><span class="pre">iarange</span></code><a class="headerlink" href="#Automatic-subsampling-with-irange-and-iarange" title="永久链接至标题">¶</a></h3>
 <p>Let’s look at the simplest case first, in which we get subsampling for
 free with one or two additional arguments to <code class="docutils literal"><span class="pre">irange</span></code> and <code class="docutils literal"><span class="pre">iarange</span></code>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pyro</span><span class="o">.</span><span class="n">irange</span><span class="p">(</span><span class="s2">&quot;data_loop&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">subsample_size</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
@@ -371,7 +371,7 @@ indices provided by <code class="docutils literal"><span class="pre">iarange</sp
 <code class="docutils literal"><span class="pre">irange</span></code> or <code class="docutils literal"><span class="pre">iarange</span></code> if <code class="docutils literal"><span class="pre">data</span></code> is on the GPU.</p>
 </div>
 <div class="section" id="Custom-subsampling-strategies-with-irange-and-iarange">
-<h3>Custom subsampling strategies with <code class="docutils literal"><span class="pre">irange</span></code> and <code class="docutils literal"><span class="pre">iarange</span></code><a class="headerlink" href="#Custom-subsampling-strategies-with-irange-and-iarange" title="Permalink to this headline">¶</a></h3>
+<h3>Custom subsampling strategies with <code class="docutils literal"><span class="pre">irange</span></code> and <code class="docutils literal"><span class="pre">iarange</span></code><a class="headerlink" href="#Custom-subsampling-strategies-with-irange-and-iarange" title="永久链接至标题">¶</a></h3>
 <p>Every time the above <code class="docutils literal"><span class="pre">model()</span></code> is run <code class="docutils literal"><span class="pre">irange</span></code> and <code class="docutils literal"><span class="pre">iarange</span></code> will
 sample new subsample indices. Since this subsampling is stateless, this
 can lead to some problems: basically for a sufficiently large dataset
@@ -383,7 +383,7 @@ docs</a> for
 details.</p>
 </div>
 <div class="section" id="Subsampling-when-there-are-only-local-random-variables">
-<h3>Subsampling when there are only local random variables<a class="headerlink" href="#Subsampling-when-there-are-only-local-random-variables" title="Permalink to this headline">¶</a></h3>
+<h3>Subsampling when there are only local random variables<a class="headerlink" href="#Subsampling-when-there-are-only-local-random-variables" title="永久链接至标题">¶</a></h3>
 <p>We have in mind a model with a joint probability density given by</p>
 <div class="math">
 \[p({\bf x}, {\bf z}) = \prod_{i=1}^N p({\bf x}_i | {\bf z}_i) p({\bf z}_i)\]</div>
@@ -397,7 +397,7 @@ without using <code class="docutils literal"><span class="pre">irange</span></co
 detail, see the <a class="reference external" href="vae.html">VAE tutorial</a></p>
 </div>
 <div class="section" id="Subsampling-when-there-are-both-global-and-local-random-variables">
-<h3>Subsampling when there are both global and local random variables<a class="headerlink" href="#Subsampling-when-there-are-both-global-and-local-random-variables" title="Permalink to this headline">¶</a></h3>
+<h3>Subsampling when there are both global and local random variables<a class="headerlink" href="#Subsampling-when-there-are-both-global-and-local-random-variables" title="永久链接至标题">¶</a></h3>
 <p>In the coin flip examples above <code class="docutils literal"><span class="pre">irange</span></code> and <code class="docutils literal"><span class="pre">iarange</span></code> appeared in
 the model but not in the guide, since the only thing being subsampled
 was the observations. Let’s look at a more complicated example where
@@ -456,7 +456,7 @@ needs to be specified in the guide.</p>
 </div>
 </div>
 <div class="section" id="Amortization">
-<h2>Amortization<a class="headerlink" href="#Amortization" title="Permalink to this headline">¶</a></h2>
+<h2>Amortization<a class="headerlink" href="#Amortization" title="永久链接至标题">¶</a></h2>
 <p>Let’s again consider a model with global and local latent random
 variables and local variational parameters:</p>
 <div class="math">
@@ -484,7 +484,7 @@ statistical power among different datapoints. Note that this is
 precisely the approach used in the <a class="reference external" href="vae.html">VAE</a>.</p>
 </div>
 <div class="section" id="References">
-<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#References" title="永久链接至标题">¶</a></h2>
 <p>[1] <code class="docutils literal"><span class="pre">Stochastic</span> <span class="pre">Variational</span> <span class="pre">Inference</span></code>, &nbsp;&nbsp;&nbsp;&nbsp; Matthew D. Hoffman, David
 M. Blei, Chong Wang, John Paisley</p>
 <p>[2] <code class="docutils literal"><span class="pre">Auto-Encoding</span> <span class="pre">Variational</span> <span class="pre">Bayes</span></code>,&nbsp;&nbsp;&nbsp;&nbsp; Diederik P Kingma, Max
@@ -514,7 +514,7 @@ Welling</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Xiongyp.
+        &copy; Copyright 2017, 小熊.
 
     </p>
   </div>
@@ -546,6 +546,7 @@ Welling</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

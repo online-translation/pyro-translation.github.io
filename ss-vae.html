@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>The Semi-Supervised VAE &mdash; Pyro实例与教程 0.1.0 documentation</title>
+  <title>The Semi-Supervised VAE &mdash; Pyro实例与教程 0.1.0 文档</title>
   
 
   
@@ -32,10 +32,10 @@
   
 
   
-        <link rel="index" title="Index"
+        <link rel="index" title="索引"
               href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Pyro实例与教程 0.1.0 documentation" href="index.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Pyro实例与教程 0.1.0 文档" href="index.html"/>
         <link rel="prev" title="Attend Infer Repeat" href="air.html"/> 
 
   
@@ -383,9 +383,9 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="section" id="The-Semi-Supervised-VAE">
-<h1>The Semi-Supervised VAE<a class="headerlink" href="#The-Semi-Supervised-VAE" title="Permalink to this headline">¶</a></h1>
+<h1>The Semi-Supervised VAE<a class="headerlink" href="#The-Semi-Supervised-VAE" title="永久链接至标题">¶</a></h1>
 <div class="section" id="Introduction">
-<h2>Introduction<a class="headerlink" href="#Introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#Introduction" title="永久链接至标题">¶</a></h2>
 <p>Most of the models we’ve covered in the tutorials are unsupervised:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://pyro.ai/examples/vae.html">Variational Autoencoder (VAE)</a></li>
@@ -438,7 +438,7 @@ well as some of the solutions that we’ll be exploring in the rest of the
 tutorial.</p>
 </div>
 <div class="section" id="The-Challenges-of-Inference">
-<h2>The Challenges of Inference<a class="headerlink" href="#The-Challenges-of-Inference" title="Permalink to this headline">¶</a></h2>
+<h2>The Challenges of Inference<a class="headerlink" href="#The-Challenges-of-Inference" title="永久链接至标题">¶</a></h2>
 <p>For concreteness we’re going to continue to assume that the
 partially-observed <span class="math">\(\{ {\bf y}_i \}\)</span> are discrete labels; we will
 also assume that the <span class="math">\(\{ {\bf z}_i \}\)</span> are continuous.</p>
@@ -475,7 +475,7 @@ labeled data</li>
 <p>We have our work cut out for us so let’s get started!</p>
 </div>
 <div class="section" id="First-Variant:-Standard-objective-function,-naive-estimator">
-<h2>First Variant: Standard objective function, naive estimator<a class="headerlink" href="#First-Variant:-Standard-objective-function,-naive-estimator" title="Permalink to this headline">¶</a></h2>
+<h2>First Variant: Standard objective function, naive estimator<a class="headerlink" href="#First-Variant:-Standard-objective-function,-naive-estimator" title="永久链接至标题">¶</a></h2>
 <p>As discussed in the introduction, we’re considering the model depicted
 in Figure 1. In more detail, the model has the following structure:</p>
 <ul class="simple">
@@ -552,7 +552,7 @@ def guide(self, xs, ys=None):
 </div>
 </div>
 <div class="section" id="Network-Definitions">
-<h3>Network Definitions<a class="headerlink" href="#Network-Definitions" title="Permalink to this headline">¶</a></h3>
+<h3>Network Definitions<a class="headerlink" href="#Network-Definitions" title="永久链接至标题">¶</a></h3>
 <p>In our experiments we use the same network configurations as used in
 reference [1]. The encoder and decoder networks have one hidden layer
 with <span class="math">\(500\)</span> hidden units and softplus activation functions. We use
@@ -562,7 +562,7 @@ exponentiation for the sigma part of the output of <code class="docutils literal
 latent dimension is 50.</p>
 </div>
 <div class="section" id="MNIST-Pre-Processing">
-<h3>MNIST Pre-Processing<a class="headerlink" href="#MNIST-Pre-Processing" title="Permalink to this headline">¶</a></h3>
+<h3>MNIST Pre-Processing<a class="headerlink" href="#MNIST-Pre-Processing" title="永久链接至标题">¶</a></h3>
 <p>We normalize the pixel values to the range <span class="math">\([0.0, 1.0]\)</span>. We use
 the <a class="reference external" href="http://pytorch.org/docs/0.2.0/_modules/torchvision/datasets/mnist.html">MNIST data
 loader</a>
@@ -576,7 +576,7 @@ configurations of supervision in the training set, i.e.&nbsp;we consider
 examples selected randomly (while ensuring that each class is balanced).</p>
 </div>
 <div class="section" id="The-Objective-Function">
-<h3>The Objective Function<a class="headerlink" href="#The-Objective-Function" title="Permalink to this headline">¶</a></h3>
+<h3>The Objective Function<a class="headerlink" href="#The-Objective-Function" title="永久链接至标题">¶</a></h3>
 <p>The objective function for this model has the two terms (c.f. Eqn. 8 in
 reference [1]):</p>
 <div class="math">
@@ -633,7 +633,7 @@ estimator.</p>
 </figure></center></div>
 </div>
 <div class="section" id="Interlude:-Summing-Out-Discrete-Latents">
-<h2>Interlude: Summing Out Discrete Latents<a class="headerlink" href="#Interlude:-Summing-Out-Discrete-Latents" title="Permalink to this headline">¶</a></h2>
+<h2>Interlude: Summing Out Discrete Latents<a class="headerlink" href="#Interlude:-Summing-Out-Discrete-Latents" title="永久链接至标题">¶</a></h2>
 <p>As highlighted in the introduction, when the discrete latent labels
 <span class="math">\({\bf y}\)</span> are not observed, the ELBO gradient estimates rely on
 sampling from <span class="math">\(q_\phi({\bf y}|{\bf x})\)</span>. These gradient estimates
@@ -668,7 +668,7 @@ the items in a minibatch are indeed independent by wrapping our
 vectorized code in a <code class="docutils literal"><span class="pre">with</span> <span class="pre">iarange(&quot;name&quot;)</span></code> block.</p>
 </div>
 <div class="section" id="Second-Variant:-Standard-Objective-Function,-Better-Estimator">
-<h2>Second Variant: Standard Objective Function, Better Estimator<a class="headerlink" href="#Second-Variant:-Standard-Objective-Function,-Better-Estimator" title="Permalink to this headline">¶</a></h2>
+<h2>Second Variant: Standard Objective Function, Better Estimator<a class="headerlink" href="#Second-Variant:-Standard-Objective-Function,-Better-Estimator" title="永久链接至标题">¶</a></h2>
 <p>Now that we have the technology to sum out discrete latents, we can see
 if doing so helps our performance. First, as we can see from Figure 3,
 the test and validation accuracies now evolve much more smoothly over
@@ -693,7 +693,7 @@ is great, but can we do better?</p>
     </figcaption>
 </figure></center></div>
 <div class="section" id="Third-Variant:-Adding-a-Term-to-the-Objective">
-<h2>Third Variant: Adding a Term to the Objective<a class="headerlink" href="#Third-Variant:-Adding-a-Term-to-the-Objective" title="Permalink to this headline">¶</a></h2>
+<h2>Third Variant: Adding a Term to the Objective<a class="headerlink" href="#Third-Variant:-Adding-a-Term-to-the-Objective" title="永久链接至标题">¶</a></h2>
 <p>For the two variants we’ve explored so far, the classifier
 <span class="math">\(q_{\phi}({\bf y}~|~ {\bf x})\)</span> doesn’t learn directly from labeled
 data. As we discussed in the introduction, this seems like a potential
@@ -770,7 +770,7 @@ Note that we used validation accuracy to select the hyperparameter
     </figcaption>
 </figure></center></div>
 <div class="section" id="Results">
-<h2>Results<a class="headerlink" href="#Results" title="Permalink to this headline">¶</a></h2>
+<h2>Results<a class="headerlink" href="#Results" title="永久链接至标题">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="20%" />
@@ -852,7 +852,7 @@ datapoints). This is a tantalizing result because it’s precisely in the
 regime where we have few labeled data points that semi-supervised
 learning is particularly attractive.</p>
 <div class="section" id="Latent-Space-Visualization">
-<h3>Latent Space Visualization<a class="headerlink" href="#Latent-Space-Visualization" title="Permalink to this headline">¶</a></h3>
+<h3>Latent Space Visualization<a class="headerlink" href="#Latent-Space-Visualization" title="永久链接至标题">¶</a></h3>
 <center><figure>
     <table>
         <tr>
@@ -875,7 +875,7 @@ style, since the variation between digits is provided by the (partially
 observed) labels.</p>
 </div>
 <div class="section" id="Conditional-image-generation">
-<h3>Conditional image generation<a class="headerlink" href="#Conditional-image-generation" title="Permalink to this headline">¶</a></h3>
+<h3>Conditional image generation<a class="headerlink" href="#Conditional-image-generation" title="永久链接至标题">¶</a></h3>
 <center><figure>
     <table>
         <tr>
@@ -925,7 +925,7 @@ disentangled from the class labels.</p>
 </div>
 </div>
 <div class="section" id="Final-thoughts">
-<h2>Final thoughts<a class="headerlink" href="#Final-thoughts" title="Permalink to this headline">¶</a></h2>
+<h2>Final thoughts<a class="headerlink" href="#Final-thoughts" title="永久链接至标题">¶</a></h2>
 <p>We’ve seen that generative models offer a natural approach to
 semi-supervised machine learning. One of the most attractive features of
 generative models is that we can explore a large variety of models in a
@@ -953,7 +953,7 @@ nimbleness—and reap any awaiting rewards.</p>
 <a class="reference external" href="https://github.com/uber/pyro/blob/dev/examples/ss_vae_M2.py">Github</a>.</p>
 </div>
 <div class="section" id="References">
-<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#References" title="永久链接至标题">¶</a></h2>
 <p>[1] <code class="docutils literal"><span class="pre">Semi-supervised</span> <span class="pre">Learning</span> <span class="pre">with</span> <span class="pre">Deep</span> <span class="pre">Generative</span> <span class="pre">Models</span></code>,
 Diederik P. Kingma, Danilo J. Rezende, Shakir Mohamed, Max Welling</p>
 <p>[2]
@@ -984,7 +984,7 @@ Torr</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Xiongyp.
+        &copy; Copyright 2017, 小熊.
 
     </p>
   </div>
@@ -1016,6 +1016,7 @@ Torr</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

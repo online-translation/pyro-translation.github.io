@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pyro里的模型：从原分布到随机函数 &mdash; Pyro实例与教程 0.1.0 documentation</title>
+  <title>Pyro里的模型：从原分布到随机函数 &mdash; Pyro实例与教程 0.1.0 文档</title>
   
 
   
@@ -32,10 +32,10 @@
   
 
   
-        <link rel="index" title="Index"
+        <link rel="index" title="索引"
               href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Pyro实例与教程 0.1.0 documentation" href="../index.html"/> 
+        <link rel="search" title="搜索" href="../search.html"/>
+    <link rel="top" title="Pyro实例与教程 0.1.0 文档" href="../index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -377,7 +377,7 @@ import pyro.distributions as dist
 </div>
 </div>
 <div class="section" id="Pyro里的模型：从原分布到随机函数">
-<h1>Pyro里的模型：从原分布到随机函数<a class="headerlink" href="#Pyro里的模型：从原分布到随机函数" title="Permalink to this headline">¶</a></h1>
+<h1>Pyro里的模型：从原分布到随机函数<a class="headerlink" href="#Pyro里的模型：从原分布到随机函数" title="永久链接至标题">¶</a></h1>
 <p>Pyro项目的这个基础模块叫做
 <em>随机函数</em>。这是一个包含两种元素的Python可调用模块。</p>
 <ul class="simple">
@@ -388,7 +388,7 @@ import pyro.distributions as dist
 <p>在这个教程和文档里，我们通常把随机函数称为<strong>模型</strong>，因为随机函数也可以被用来表示一个数据生成的简单或者抽象的过程描述。用随机函数来表征模型在Pyro中通常意味着模型能够像其他通用的Python可调用模块一样被重组、复用、载入和序列化。</p>
 <p>话不多说，让我们开始介绍我们第一个基础的元件：初等随机函数：</p>
 <div class="section" id="随机原函数">
-<h2>随机原函数<a class="headerlink" href="#随机原函数" title="Permalink to this headline">¶</a></h2>
+<h2>随机原函数<a class="headerlink" href="#随机原函数" title="永久链接至标题">¶</a></h2>
 <p>随机原函数，也叫分布函数，就是一类重要的随机函数，我们能够显式计算给定输入的概率。Pyro自带一个独立的<a class="reference external" href="http://docs.pyro.ai/distributions.html">函数库</a>,
 ‘pyro.distribution’。这是一个基于PyTorch构建的GPU加速的多变量概率分布函数库，提供很多分布函数族，例如：伯努利分布、均匀分布。用户也能够使用子类<code class="docutils literal"><span class="pre">pyro.distributions.Distribution</span></code>来实现经典的分布。</p>
 <p>使用随机原函数是非常简单的。例如，从一个标准正态分布<span class="math">\(\\mathcal{N}(0,1)\)</span>中抽取一个样本<code class="docutils literal"><span class="pre">x</span></code>,我们只需要像下面这样做：</p>
@@ -443,7 +443,7 @@ Variable containing:
 <p>注意，传递到方法<code class="docutils literal"><span class="pre">log_pdf</span></code>的参数是：首先是需要求值的变量（例如<code class="docutils literal"><span class="pre">x</span></code>）,接下来是这个分布的参数（例如<code class="docutils literal"><span class="pre">mu</span></code>和<code class="docutils literal"><span class="pre">sigma</span></code>）。</p>
 </div>
 <div class="section" id="原函数-pyro.sample">
-<h2>原函数 <code class="docutils literal"><span class="pre">pyro.sample</span></code><a class="headerlink" href="#原函数-pyro.sample" title="Permalink to this headline">¶</a></h2>
+<h2>原函数 <code class="docutils literal"><span class="pre">pyro.sample</span></code><a class="headerlink" href="#原函数-pyro.sample" title="永久链接至标题">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">pyro.sample</span></code>是Pyro众多核心语法原函数(the core language
 primitives)中的一个。使用<code class="docutils literal"><span class="pre">pyro.sample</span></code>就像调用一个随机原函数那样简单，但是有一个重要的差异：</p>
 <div class="nbinput docutils container">
@@ -481,7 +481,7 @@ _被命名_了。Pyro的后端使用这些名字来唯一标识样本，并且�
 <code class="docutils literal"><span class="pre">arg2</span></code>为参数进行采样得到的样本。</p>
 </div>
 <div class="section" id="一个简单的模型">
-<h2>一个简单的模型<a class="headerlink" href="#一个简单的模型" title="Permalink to this headline">¶</a></h2>
+<h2>一个简单的模型<a class="headerlink" href="#一个简单的模型" title="永久链接至标题">¶</a></h2>
 <p>到目前为止我们已经介绍了<code class="docutils literal"><span class="pre">pyro.sample</span></code> 和
 <code class="docutils literal"><span class="pre">pyro.distributions</span></code>，我们已经能够编写一个简单的模型了。我们对真实世界建模的渴望驱使着我们对概率编程产生狂热的兴趣，那么我们选择一个具体的案例吧。</p>
 <p>假设我们有一堆日气温平均值和云层覆盖的数据，我们想知道温度和晴天或多云天气之间是如何关联的。一个简单的随机函数如下所示：</p>
@@ -543,7 +543,7 @@ for _ in range(3):
 <p>这类大多数开发者一定很熟悉的模块化代码显然是非常强大的。但是他是否强大到能够构建我们想要表达的任何一种模型呢？</p>
 </div>
 <div class="section" id="普适性：随机递归、高阶随机函数和随机控制流">
-<h2>普适性：随机递归、高阶随机函数和随机控制流<a class="headerlink" href="#普适性：随机递归、高阶随机函数和随机控制流" title="Permalink to this headline">¶</a></h2>
+<h2>普适性：随机递归、高阶随机函数和随机控制流<a class="headerlink" href="#普适性：随机递归、高阶随机函数和随机控制流" title="永久链接至标题">¶</a></h2>
 <p>Pyro是基于python的，它定义的随机函数能够包含任意复杂的确定性python代码，而随机性也能够自如的作用到控制流中。。例如，我们能够构造一种非确定性终止递归的递归函数，而且我们可以在任何调用的时候传递一个唯一的样本名给<code class="docutils literal"><span class="pre">pyro.sample</span></code>。例如我们可以像这样定义一个几何分布：</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -618,7 +618,7 @@ Variable containing:
 <p>这里需要说明Pyro以Pytorch为引擎的一个理由：Pytorch提供的动态计算图是构建基于GPU加速的通用张量模型的重要基础。</p>
 </div>
 <div class="section" id="下一步">
-<h2>下一步<a class="headerlink" href="#下一步" title="Permalink to this headline">¶</a></h2>
+<h2>下一步<a class="headerlink" href="#下一步" title="永久链接至标题">¶</a></h2>
 <p>到目前为止我们已经展示了如何在Pyro中使用随机函数以及原分布来搭建模型。为了能够从数据中学习模型，并且基于模型进行推导，我们需要进行推断。这就是我们<a class="reference external" href="https://online-translation.github.io/pyro-translation.github.io/intro_part_ii.html">下一个教程</a>的主题。</p>
 </div>
 </div>
@@ -636,7 +636,7 @@ Variable containing:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Xiongyp.
+        &copy; Copyright 2017, 小熊.
 
     </p>
   </div>
@@ -668,6 +668,7 @@ Variable containing:
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>SVI Part I: An Introduction to Stochastic Variational Inference in Pyro &mdash; Pyro实例与教程 0.1.0 documentation</title>
+  <title>SVI Part I: An Introduction to Stochastic Variational Inference in Pyro &mdash; Pyro实例与教程 0.1.0 文档</title>
   
 
   
@@ -32,10 +32,10 @@
   
 
   
-        <link rel="index" title="Index"
+        <link rel="index" title="索引"
               href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Pyro实例与教程 0.1.0 documentation" href="index.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Pyro实例与教程 0.1.0 文档" href="index.html"/>
         <link rel="next" title="SVI Part II: Conditional Independence, Subsampling, and Amortization" href="svi_part_ii.html"/>
         <link rel="prev" title="Inference in Pyro: From Stochastic Functions to Marginal Distributions" href="intro_part_ii.html"/> 
 
@@ -377,13 +377,13 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="section" id="SVI-Part-I:-An-Introduction-to-Stochastic-Variational-Inference-in-Pyro">
-<h1>SVI Part I: An Introduction to Stochastic Variational Inference in Pyro<a class="headerlink" href="#SVI-Part-I:-An-Introduction-to-Stochastic-Variational-Inference-in-Pyro" title="Permalink to this headline">¶</a></h1>
+<h1>SVI Part I: An Introduction to Stochastic Variational Inference in Pyro<a class="headerlink" href="#SVI-Part-I:-An-Introduction-to-Stochastic-Variational-Inference-in-Pyro" title="永久链接至标题">¶</a></h1>
 <p>Pyro has been designed with particular attention paid to supporting
 stochastic variational inference as a general purpose inference
 algorithm. Let’s see how we go about doing variational inference in
 Pyro.</p>
 <div class="section" id="Setup">
-<h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h2>
+<h2>Setup<a class="headerlink" href="#Setup" title="永久链接至标题">¶</a></h2>
 <p>We’re going to assume we’ve already defined our model in Pyro (for more
 details on how this is done see <a class="reference external" href="http://pyro.ai/examples/intro_part_i.html">Intro Part
 I</a>). As a quick reminder,
@@ -411,7 +411,7 @@ properties:</p>
 </ol>
 </div>
 <div class="section" id="Model-Learning">
-<h2>Model Learning<a class="headerlink" href="#Model-Learning" title="Permalink to this headline">¶</a></h2>
+<h2>Model Learning<a class="headerlink" href="#Model-Learning" title="永久链接至标题">¶</a></h2>
 <p>In this context our criterion for learning a good model will be
 maximizing the log evidence, i.e.&nbsp;we want to find the value of
 <span class="math">\(\theta\)</span> given by</p>
@@ -438,7 +438,7 @@ posterior <span class="math">\(p_{\theta_{\rm{max}}}({\bf z} | {\bf x})\)</span>
 how that works.</p>
 </div>
 <div class="section" id="Guide">
-<h2>Guide<a class="headerlink" href="#Guide" title="Permalink to this headline">¶</a></h2>
+<h2>Guide<a class="headerlink" href="#Guide" title="永久链接至标题">¶</a></h2>
 <p>The basic idea is that we introduce a parameterized distribution
 <span class="math">\(q_{\phi}({\bf z})\)</span>, where <span class="math">\(\phi\)</span> are known as the
 variational parameters. This distribution is called the variational
@@ -478,7 +478,7 @@ posterior. To do this we need to define an appropriate objective
 function.</p>
 </div>
 <div class="section" id="ELBO">
-<h2>ELBO<a class="headerlink" href="#ELBO" title="Permalink to this headline">¶</a></h2>
+<h2>ELBO<a class="headerlink" href="#ELBO" title="永久链接至标题">¶</a></h2>
 <p>A simple derivation (for example see reference [1]) yields what we’re
 after: the evidence lower bound (ELBO). The ELBO, which is a function of
 both <span class="math">\(\theta\)</span> and <span class="math">\(\phi\)</span>, is defined as an expectation
@@ -521,7 +521,7 @@ solved problem and look at the support that Pyro provides for doing
 variational inference.</p>
 </div>
 <div class="section" id="SVI-Class">
-<h2><code class="docutils literal"><span class="pre">SVI</span></code> Class<a class="headerlink" href="#SVI-Class" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal"><span class="pre">SVI</span></code> Class<a class="headerlink" href="#SVI-Class" title="永久链接至标题">¶</a></h2>
 <p>In Pyro the machinery for doing variational inference is encapsulated in
 the <code class="docutils literal"><span class="pre">SVI</span></code> class. (At present <code class="docutils literal"><span class="pre">SVI</span></code> only provides support for the
 ELBO objective, but in the future Pyro will provide support for
@@ -555,7 +555,7 @@ and gradient (in the case of <code class="docutils literal"><span class="pre">st
 support for user-defined losses; see the documentation for details.</p>
 </div>
 <div class="section" id="Optimizers">
-<h2>Optimizers<a class="headerlink" href="#Optimizers" title="Permalink to this headline">¶</a></h2>
+<h2>Optimizers<a class="headerlink" href="#Optimizers" title="永久链接至标题">¶</a></h2>
 <p>In Pyro, the model and guide are allowed to be arbitrary stochastic
 functions provided that</p>
 <ol class="arabic simple">
@@ -624,7 +624,7 @@ parameter <code class="docutils literal"><span class="pre">my_special_parameter<
 all other parameters.</p>
 </div>
 <div class="section" id="A-simple-example">
-<h2>A simple example<a class="headerlink" href="#A-simple-example" title="Permalink to this headline">¶</a></h2>
+<h2>A simple example<a class="headerlink" href="#A-simple-example" title="永久链接至标题">¶</a></h2>
 <p>We finish with a simple example. You’ve been given a two-sided coin. You
 want to determine whether the coin is fair or not, i.e.&nbsp;whether it falls
 heads or tails with the same frequency. You have a prior belief about
@@ -817,7 +817,7 @@ based on the data and our prior belief, the fairness of the coin is 0.532 +- 0.0
 are noisy. We’ll describe another approach for dealing with noisy
 gradient estimates in <a class="reference external" href="svi_part_iii.html">another tutorial</a>.</p>
 <div class="section" id="Sample-output:">
-<h3>Sample output:<a class="headerlink" href="#Sample-output:" title="Permalink to this headline">¶</a></h3>
+<h3>Sample output:<a class="headerlink" href="#Sample-output:" title="永久链接至标题">¶</a></h3>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">based</span> <span class="n">on</span> <span class="n">the</span> <span class="n">data</span> <span class="ow">and</span> <span class="n">our</span> <span class="n">prior</span> <span class="n">belief</span><span class="p">,</span> <span class="n">the</span> <span class="n">fairness</span> <span class="n">of</span> <span class="n">the</span> <span class="n">coin</span> <span class="ow">is</span> <span class="mf">0.532</span> <span class="o">+-</span> <span class="mf">0.090</span>
 </pre></div>
 </div>
@@ -829,7 +829,7 @@ by the raw empirical frequencies (<span class="math">\(6/10 = 0.60\)</span>).</p
 </div>
 </div>
 <div class="section" id="References">
-<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#References" title="永久链接至标题">¶</a></h2>
 <p>[1] <code class="docutils literal"><span class="pre">Automated</span> <span class="pre">Variational</span> <span class="pre">Inference</span> <span class="pre">in</span> <span class="pre">Probabilistic</span> <span class="pre">Programming</span></code>,
 &nbsp;&nbsp;&nbsp;&nbsp; David Wingate, Theo Weber</p>
 <p>[2] <code class="docutils literal"><span class="pre">Black</span> <span class="pre">Box</span> <span class="pre">Variational</span> <span class="pre">Inference</span></code>,&nbsp;&nbsp;&nbsp;&nbsp; Rajesh Ranganath, Sean
@@ -861,7 +861,7 @@ Welling</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Xiongyp.
+        &copy; Copyright 2017, 小熊.
 
     </p>
   </div>
@@ -893,6 +893,7 @@ Welling</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

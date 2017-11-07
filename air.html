@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Attend Infer Repeat &mdash; Pyro实例与教程 0.1.0 documentation</title>
+  <title>Attend Infer Repeat &mdash; Pyro实例与教程 0.1.0 文档</title>
   
 
   
@@ -32,10 +32,10 @@
   
 
   
-        <link rel="index" title="Index"
+        <link rel="index" title="索引"
               href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Pyro实例与教程 0.1.0 documentation" href="index.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Pyro实例与教程 0.1.0 文档" href="index.html"/>
         <link rel="next" title="The Semi-Supervised VAE" href="ss-vae.html"/>
         <link rel="prev" title="Deep Markov Model" href="dmm.html"/> 
 
@@ -388,7 +388,7 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="section" id="Attend-Infer-Repeat">
-<h1>Attend Infer Repeat<a class="headerlink" href="#Attend-Infer-Repeat" title="Permalink to this headline">¶</a></h1>
+<h1>Attend Infer Repeat<a class="headerlink" href="#Attend-Infer-Repeat" title="永久链接至标题">¶</a></h1>
 <p>In this tutorial we will implement the model and inference strategy
 described in “Attend, Infer, Repeat: Fast Scene Understanding with
 Generative Models” (AIR) [1] and apply it to the multi-mnist dataset.</p>
@@ -420,7 +420,7 @@ import numpy as np
 </div>
 </div>
 <div class="section" id="Introduction">
-<h2>Introduction<a class="headerlink" href="#Introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#Introduction" title="永久链接至标题">¶</a></h2>
 <p>The model described in [1] is a generative model of scenes. In this
 tutorial we will use it to model images from a dataset that is similar
 to the multi-mnist dataset in [1]. Here are some data points from this
@@ -476,9 +476,9 @@ data dependent baselines to achieve good performance. This technique can
 be implemented in Pyro, and we’ll see how later in the tutorial.</p>
 </div>
 <div class="section" id="Model">
-<h2>Model<a class="headerlink" href="#Model" title="Permalink to this headline">¶</a></h2>
+<h2>Model<a class="headerlink" href="#Model" title="永久链接至标题">¶</a></h2>
 <div class="section" id="Generating-a-single-object">
-<h3>Generating a single object<a class="headerlink" href="#Generating-a-single-object" title="Permalink to this headline">¶</a></h3>
+<h3>Generating a single object<a class="headerlink" href="#Generating-a-single-object" title="永久链接至标题">¶</a></h3>
 <p>Let’s look at the model more closely. At the core of the model is the
 generative process for a single object. Recall that:</p>
 <ul class="simple">
@@ -610,7 +610,7 @@ show_images(samples)
 </div>
 </div>
 <div class="section" id="Generating-an-entire-image">
-<h3>Generating an entire image<a class="headerlink" href="#Generating-an-entire-image" title="Permalink to this headline">¶</a></h3>
+<h3>Generating an entire image<a class="headerlink" href="#Generating-an-entire-image" title="永久链接至标题">¶</a></h3>
 <p>Having completed the implementation of a single step, we next consider
 how we can use this to generate an entire image. Recall that we would
 like to maintain uncertainty over the number of steps used to generate
@@ -702,7 +702,7 @@ show_images(samples)
 </div>
 </div>
 <div class="section" id="Aside:-Vectorized-mini-batches">
-<h4>Aside: Vectorized mini-batches<a class="headerlink" href="#Aside:-Vectorized-mini-batches" title="Permalink to this headline">¶</a></h4>
+<h4>Aside: Vectorized mini-batches<a class="headerlink" href="#Aside:-Vectorized-mini-batches" title="永久链接至标题">¶</a></h4>
 <p>In our final implementation we would like to generate a mini batch of
 samples in parallel for efficiency. While Pyro supports vectorized mini
 batches with <code class="docutils literal"><span class="pre">iarange</span></code>, it currently assumes that each <code class="docutils literal"><span class="pre">sample</span></code>
@@ -812,7 +812,7 @@ show_images(prior(5))
 </div>
 </div>
 <div class="section" id="Specifying-the-likelihood">
-<h4>Specifying the likelihood<a class="headerlink" href="#Specifying-the-likelihood" title="Permalink to this headline">¶</a></h4>
+<h4>Specifying the likelihood<a class="headerlink" href="#Specifying-the-likelihood" title="永久链接至标题">¶</a></h4>
 <p>The last thing we need in order to complete the specification of the
 model is a likelihood function. Following [1] we will use a Gaussian
 likelihood with a fixed standard deviation of 0.3. This is straight
@@ -843,7 +843,7 @@ with <code class="docutils literal"><span class="pre">pyro.module</span></code>.
 </div>
 </div>
 <div class="section" id="Guide">
-<h2>Guide<a class="headerlink" href="#Guide" title="Permalink to this headline">¶</a></h2>
+<h2>Guide<a class="headerlink" href="#Guide" title="永久链接至标题">¶</a></h2>
 <p>Following [1] we will perform <a class="reference external" href="svi_part_i.html">amortized stochastic variational
 inference</a> in this model. Pyro provides general
 purpose machinery that implements most of this inference strategy, but
@@ -999,7 +999,7 @@ def image_to_object(z_where, image):
 </div>
 </div>
 <div class="section" id="Another-perspective">
-<h3>Another perspective<a class="headerlink" href="#Another-perspective" title="Permalink to this headline">¶</a></h3>
+<h3>Another perspective<a class="headerlink" href="#Another-perspective" title="永久链接至标题">¶</a></h3>
 <p>So far we’ve considered the model and the guide in isolation, but we
 gain an interesting perspective if we zoom out and look at the model and
 guide computation as a whole. Doing so, we see that at each step AIR
@@ -1025,7 +1025,7 @@ each step; hence “Attend, Infer, Repeat”.</p>
 </div>
 </div>
 <div class="section" id="Inference">
-<h2>Inference<a class="headerlink" href="#Inference" title="Permalink to this headline">¶</a></h2>
+<h2>Inference<a class="headerlink" href="#Inference" title="永久链接至标题">¶</a></h2>
 <p>As we mentioned in the introduction, successfully performing inference
 in this model is a challenge. In particular, the presence of discrete
 choices in the model makes inference trickier than in a model in which
@@ -1037,7 +1037,7 @@ discrete choices.</p>
 called “data dependent baselines” (AKA “neural baselines”) to the
 discrete choices in the model.</p>
 <div class="section" id="Data-dependent-baselines">
-<h3>Data dependent baselines<a class="headerlink" href="#Data-dependent-baselines" title="Permalink to this headline">¶</a></h3>
+<h3>Data dependent baselines<a class="headerlink" href="#Data-dependent-baselines" title="永久链接至标题">¶</a></h3>
 <p>Happily for us, Pyro includes support for data dependent baselines. If
 you are not already familiar with this idea, you might want to read <a class="reference external" href="svi_part_iii.html">our
 introduction</a> before continuing. As model authors
@@ -1152,7 +1152,7 @@ def guide(data):
 </div>
 </div>
 <div class="section" id="Putting-it-all-together">
-<h3>Putting it all together<a class="headerlink" href="#Putting-it-all-together" title="Permalink to this headline">¶</a></h3>
+<h3>Putting it all together<a class="headerlink" href="#Putting-it-all-together" title="永久链接至标题">¶</a></h3>
 <p>We have now completed the implementation of the model and the guide. As
 we have already seen in earlier tutorials, we need write only a few more
 lines of code to begin performing inference:</p>
@@ -1185,7 +1185,7 @@ order to achieve good results in the presence of discrete choices.</p>
 </div>
 </div>
 <div class="section" id="Improvements">
-<h2>Improvements<a class="headerlink" href="#Improvements" title="Permalink to this headline">¶</a></h2>
+<h2>Improvements<a class="headerlink" href="#Improvements" title="永久链接至标题">¶</a></h2>
 <p>Our <a class="reference external" href="https://github.com/uber/pyro/tree/dev/examples/air">standalone AIR
 implementation</a>
 includes a few simple improvements to the basic recipe given in this
@@ -1204,7 +1204,7 @@ tutorial for more detail.)</li>
 </ul>
 </div>
 <div class="section" id="Results">
-<h2>Results<a class="headerlink" href="#Results" title="Permalink to this headline">¶</a></h2>
+<h2>Results<a class="headerlink" href="#Results" title="永久链接至标题">¶</a></h2>
 <div class="admonition note">
 This section will be updated with more results.</div>
 <p>The following images show the progress made by our <a class="reference external" href="https://github.com/uber/pyro/tree/dev/examples/air">standalone
@@ -1225,7 +1225,7 @@ generate an output image.</p>
 are inferred accurately but object counts are not.</p>
 </div>
 <div class="section" id="References">
-<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#References" title="永久链接至标题">¶</a></h2>
 <p>[1]
 <code class="docutils literal"><span class="pre">Attend,</span> <span class="pre">Infer,</span> <span class="pre">Repeat:</span> <span class="pre">Fast</span> <span class="pre">Scene</span> <span class="pre">Understanding</span> <span class="pre">with</span> <span class="pre">Generative</span> <span class="pre">Models</span></code>
 &nbsp;&nbsp;&nbsp;&nbsp; S. M. Ali Eslami and Nicolas Heess and Theophane Weber and Yuval
@@ -1257,7 +1257,7 @@ Simonyan and Andrew Zisserman</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Xiongyp.
+        &copy; Copyright 2017, 小熊.
 
     </p>
   </div>
@@ -1289,6 +1289,7 @@ Simonyan and Andrew Zisserman</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
