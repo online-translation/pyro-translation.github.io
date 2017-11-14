@@ -96,7 +96,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">使用Pyro进行推断： 从随机函数到边缘分布</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#一个简单的案例">一个简单的案例</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#如何表示边缘分布">如何表示边缘分布</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Conditioning-Models-on-Data">Conditioning Models on Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#基于数据的条件模型">基于数据的条件模型</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Flexible-Approximate-Inference-With-Guide-Functions">Flexible Approximate Inference With Guide Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Parametrized-Stochastic-Functions-and-Variational-Inference">Parametrized Stochastic Functions and Variational Inference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#下一步">下一步</a></li>
@@ -479,12 +479,7 @@ Variable containing:
 
 </pre></div></div>
 </div>
-<p>When called with an input <code class="docutils literal"><span class="pre">guess</span></code>, <code class="docutils literal"><span class="pre">marginal</span></code> first uses
-<code class="docutils literal"><span class="pre">posterior</span></code> to generate a sequence of weighted execution traces given
-<code class="docutils literal"><span class="pre">guess</span></code>, then builds a histogram over return values from the traces,
-and finally returns a sample drawn from the histogram. Calling
-<code class="docutils literal"><span class="pre">marginal</span></code> with the same arguments more than once will sample from the
-same histogram.</p>
+<p>当传入<code class="docutils literal"><span class="pre">guess</span></code>作为输入是，<code class="docutils literal"><span class="pre">marginal</span></code>首先会使用<code class="docutils literal"><span class="pre">posterior</span></code>对给定的<code class="docutils literal"><span class="pre">guess</span></code>产生一个带权值的执行结果序列，然后基于这些序列的返回值构造一个直方图，最后返回一个从这个直方图中抽取的样本。使用相同的参数反复调用<code class="docutils literal"><span class="pre">marginal</span></code>将从同一个直方图中采样。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [5]:
@@ -515,16 +510,10 @@ plt.ylabel(&quot;#&quot;)
 <img alt="_images/intro_part_ii_9_1.png" src="_images/intro_part_ii_9_1.png" />
 </div>
 </div>
-<p><code class="docutils literal"><span class="pre">pyro.infer.Marginal</span></code> also accepts the optional keyword argument
-<code class="docutils literal"><span class="pre">sites=[name1,</span> <span class="pre">name2,</span> <span class="pre">...]</span></code> that provides a list of names of latent
-variables. When <code class="docutils literal"><span class="pre">sites</span></code> is specified, <code class="docutils literal"><span class="pre">marginal</span></code> will return a
-dictionary where the keys are the names in <code class="docutils literal"><span class="pre">sites</span></code> and the values are
-values at those sites from a single execution trace. This is useful
-because we may wish to compute many different marginals from the same
-posterior object.</p>
+<p><code class="docutils literal"><span class="pre">pyro.infer.Marginal</span></code>也接受可选关键字参数列表<code class="docutils literal"><span class="pre">sites=[name1,</span> <span class="pre">name2,</span> <span class="pre">...]</span></code>来提供隐变量的名字。当<code class="docutils literal"><span class="pre">sites</span></code>被指定时，<code class="docutils literal"><span class="pre">marginal</span></code>将会返回一个字典，接受来自指定应变量列表名字的可选关键字，而对应值则为从单次执行结果中求得的值。当我们希望从一个后验对象中计算很多不同的边缘分布时，这将非常有用。</p>
 </div>
-<div class="section" id="Conditioning-Models-on-Data">
-<h2>Conditioning Models on Data<a class="headerlink" href="#Conditioning-Models-on-Data" title="永久链接至标题">¶</a></h2>
+<div class="section" id="基于数据的条件模型">
+<h2>基于数据的条件模型<a class="headerlink" href="#基于数据的条件模型" title="永久链接至标题">¶</a></h2>
 <p>The real utility of probabilistic programming is in the ability to
 condition generative models on observed data and infer the latent
 factors that might have produced that data. In Pyro, we separate the
